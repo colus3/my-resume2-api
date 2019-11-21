@@ -1,8 +1,9 @@
-package me.programmeris.myresume.api.entity;
+package me.programmeris.myresume.api.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import me.programmeris.myresume.api.entity.base.Updatable;
+import me.programmeris.myresume.api.entity.resume.Resume;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class User extends Updatable {
     @Column(name = "user_id")
     private Long id;
 
-    private String userName;
+    private String username;
 
     private String moto;
     private String email;
@@ -27,7 +28,6 @@ public class User extends Updatable {
     private LocalDate birthDate;
     private String image;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes = new ArrayList<>();
 }

@@ -1,21 +1,22 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/my_resume?characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3307/my_resume_v2?characterEncoding=UTF-8
     username: root
-    password: juno2989
+    password: qweiop
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
+      use-new-id-generator-mappings: false # MySQL auto_increment 사용
     properties:
       hibernate:
         #        show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
-#    open-in-view: false
+    open-in-view: false
 
 logging:
   level:
-    org.hibernate.SQL: debug
+    org.hibernate.SQL: info
 #    org.hibernate.type: trace
