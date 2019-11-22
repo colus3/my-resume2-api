@@ -46,66 +46,96 @@ public class InitData {
             User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
             userRepository.save(user);
 
-            Resume resume = new Resume();
-            resume.setResumeType(ResumeType.TYPE_1);
-            resume.setResumeName("Default");
-            resume.setUser(user);
-            resume.setUseYn("Y");
-            resume.setCreateUserId(user.getId());
-            resume.setUpdateUserId(user.getId());
+            Resume resume = createResume(ResumeType.TYPE_1, "Default", "Y", user);
             resumeRepository.save(resume);
 
-            Content profiles = new Content();
-            profiles.setDisplayOrder(1L);
-            profiles.setType(PROFILE);
-            profiles.setName("MyProfile");
-            profiles.setCreateUserId(user.getId());
-            profiles.setUpdateUserId(user.getId());
-
-            Profile myProfile = new Profile();
-            myProfile.setTitle("나는 프로그래머다");
-            myProfile.setContent(profiles);
-            myProfile.setContents("난 12년된 프로그래머다. 뭐든 할 수 있다.");
-            profiles.addContentItem(myProfile);
+            Content profiles = createContent(1L,
+                                             PROFILE,
+                                             "MyProfile",
+                                             user);
             contentRepository.save(profiles);
 
-            ResumeContent profileContent = new ResumeContent();
-            profileContent.setContent(profiles);
-            profileContent.setDisplayName("My Profile");
-            profileContent.setPosition(Position.LEFT);
+            Profile myProfile = createProfile("나는 프로그래머다", "난 12년된 프로그래머다. 뭐든 할 수 있다.");
+            myProfile.setContent(profiles);
+            profiles.addContentItem(myProfile);
+
+            ResumeContent profileContent = createResumeContent("My Profile",
+                                                               Position.LEFT);
             profileContent.setResume(resume);
+            profileContent.setContent(profiles);
 
             resume.addResumeContents(profileContent);
 
-            Content educations = new Content();
-            educations.setDisplayOrder(2L);
-            educations.setType(EDUCATION);
-            educations.setName("MyEducation");
-            educations.setCreateUserId(user.getId());
-            educations.setUpdateUserId(user.getId());
+            Content educations = createContent(2L,
+                                               EDUCATION,
+                                               "MyEducation",
+                                               user);
             contentRepository.save(educations);
 
-            Education education1 = new Education();
+            Education education1 = createEducation(LocalDateTime.of(2015, 3, 10, 0, 0),
+                                                   LocalDateTime.of(2015, 4, 10, 0, 0),
+                                                   "교육 이수");
             education1.setContent(educations);
-            education1.setContents("교육 이수");
-            education1.setStartDt(LocalDateTime.of(2015, 3, 10, 0, 0));
-            education1.setEndDt(LocalDateTime.of(2015, 4, 10, 0, 0));
             educations.addContentItem(education1);
 
-            Education education2 = new Education();
+            Education education2 = createEducation(LocalDateTime.of(2000, 3, 1, 0, 0),
+                                                   LocalDateTime.of(2008, 2, 28, 0, 0),
+                                                   "대학 졸업");
             education2.setContent(educations);
-            education2.setContents("대학 졸업");
-            education1.setStartDt(LocalDateTime.of(2000, 3, 1, 0, 0));
-            education1.setEndDt(LocalDateTime.of(2008, 2, 28, 0, 0));
             educations.addContentItem(education2);
 
-            ResumeContent educationContent = new ResumeContent();
+            ResumeContent educationContent = createResumeContent("My Education",
+                                                                 Position.RIGHT);
             educationContent.setContent(educations);
-            educationContent.setDisplayName("My Education");
-            educationContent.setPosition(Position.RIGHT);
             educationContent.setResume(resume);
 
             resume.addResumeContents(educationContent);
+        }
+
+        private Education createEducation(LocalDateTime startDt, LocalDateTime endDt, String contents) {
+            Education education1 = new Education();
+            education1.setContents(contents);
+            education1.setStartDt(startDt);
+            education1.setEndDt(endDt);
+            return education1;
+        }
+
+        private ResumeContent createResumeContent(String displayName, Position position) {
+            ResumeContent profileContent = new ResumeContent();
+            profileContent.setDisplayName(displayName);
+            profileContent.setPosition(position);
+            return profileContent;
+        }
+
+        private Profile createProfile(String title, String contents) {
+            Profile myProfile = new Profile();
+            myProfile.setTitle(title);
+            myProfile.setContents(contents);
+            return myProfile;
+        }
+
+        private Content createContent(Long displayOrder,
+                                      String contentType,
+                                      String contentName,
+                                      User user) {
+            Content content = new Content();
+            content.setDisplayOrder(displayOrder);
+            content.setType(contentType);
+            content.setName(contentName);
+            content.setCreateUserId(user.getId());
+            content.setUpdateUserId(user.getId());
+            return content;
+        }
+
+        private Resume createResume(ResumeType resumeType, String resumeName, String useYn, User user) {
+            Resume resume = new Resume();
+            resume.setResumeType(resumeType);
+            resume.setResumeName(resumeName);
+            resume.setUser(user);
+            resume.setUseYn(useYn);
+            resume.setCreateUserId(user.getId());
+            resume.setUpdateUserId(user.getId());
+            return resume;
         }
 
         private User createUser(String username, String phone, String email) {
