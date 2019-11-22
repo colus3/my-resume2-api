@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.Response;
 import me.programmeris.myresume.api.service.ResumeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,13 +14,15 @@ public class ResumeApiController {
     private final ResumeService resumeService;
 
     @GetMapping("{resume_id:.+}")
-    public Response getResume(@PathVariable("resume_id") Long resumeId) {
+    public Response getResume(@PathVariable("resume_id") Long resumeId,
+                              @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
-        return Response.create(Code.SUCCESS, resumeService.getResume(resumeId));
+        return Response.create(Code.SUCCESS, resumeService.getResume(resumeId, useYn));
     }
 
     @GetMapping("/id/{direct_access_id:.+}")
-    public Response getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId) {
-        return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId));
+    public Response getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
+                                              @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
+        return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId, useYn));
     }
 }

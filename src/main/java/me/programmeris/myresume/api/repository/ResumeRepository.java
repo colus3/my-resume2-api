@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
-    Resume findOneByDirectAccessId(String directAccessId);
+    Resume findOneByIdAndUseYn(Long id, String useYn);
+    Resume findOneByDirectAccessIdAndUseYn(String directAccessId, String useYn);
 }

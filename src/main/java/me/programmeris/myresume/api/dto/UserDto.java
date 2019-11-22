@@ -1,9 +1,10 @@
 package me.programmeris.myresume.api.dto;
 
 import lombok.Getter;
+import me.programmeris.myresume.api.entity.user.User;
 
 @Getter
-public class UserDto {
+public class UserDto implements ResponseData {
 
     private String username;
     private String phone;
@@ -14,4 +15,11 @@ public class UserDto {
         this.phone = phone;
         this.email = email;
     }
+
+    public static UserDto of(User user) {
+        if (user == null) return null;
+
+        return new UserDto(user.getUsername(), user.getPhone(), user.getEmail());
+    }
+
 }

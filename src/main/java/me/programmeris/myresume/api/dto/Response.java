@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Response<T> {
+public class Response<T extends ResponseData> {
 
     private Code code;
     private String message;
     private T data;
 
-    public static <T> Response create(Code code, T data) {
+    public static <T extends ResponseData> Response create(Code code, T data) {
 
         return new Response<>(code, data);
     }

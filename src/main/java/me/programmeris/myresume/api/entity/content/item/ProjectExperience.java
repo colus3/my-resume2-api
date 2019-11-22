@@ -5,14 +5,15 @@ import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+
 import java.time.LocalDateTime;
 
-import static me.programmeris.myresume.api.entity.content.ContentType.EDUCATION;
+import static me.programmeris.myresume.api.entity.content.ContentType.PROJECT_EXPERIENCE;
 
 @Entity
-@DiscriminatorValue(value = EDUCATION)
+@DiscriminatorValue(value = PROJECT_EXPERIENCE)
 @Getter @Setter
-public class Education extends ContentItem {
+public class ProjectExperience extends ContentItem {
 
     private LocalDateTime startDt;
     private LocalDateTime endDt;

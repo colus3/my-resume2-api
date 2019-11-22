@@ -38,6 +38,10 @@ public class Resume extends Deletable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResumeContent> resumeContents = new ArrayList<>();
+
+    public void addResumeContents(ResumeContent resumeContent) {
+        resumeContents.add(resumeContent);
+    }
 }

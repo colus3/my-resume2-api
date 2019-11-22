@@ -6,12 +6,10 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import static me.programmeris.myresume.api.entity.content.ContentType.PROFILE;
+import static me.programmeris.myresume.api.entity.content.ContentType.SELF_INTRODUCTION;
 
 @Entity
-@DiscriminatorValue(value = PROFILE)
+@DiscriminatorValue(value = SELF_INTRODUCTION)
 @Getter @Setter
-public class Profile extends ContentItem {
-
-    private String title;
+public class SelfIntroduction extends ContentItem {
 }

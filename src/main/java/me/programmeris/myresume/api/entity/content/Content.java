@@ -3,9 +3,9 @@ package me.programmeris.myresume.api.entity.content;
 import lombok.Getter;
 import lombok.Setter;
 import me.programmeris.myresume.api.entity.base.Updatable;
+import me.programmeris.myresume.api.entity.content.item.ContentItem;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +16,14 @@ public class Content extends Updatable {
     @Id @GeneratedValue
     private Long id;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    private ContentType contentType;
+    private String type;
     private String name;
+    private Long displayOrder;
 
-    @OneToMany(mappedBy = "content")
-    private List<Skill> skills = new ArrayList<>();
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContentItem> contentItems = new ArrayList<>();
 
-    private Integer displayOrder;
+    public void addContentItem(ContentItem contentItem) {
+        contentItems.add(contentItem);
+    }
 }

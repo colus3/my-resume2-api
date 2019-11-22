@@ -1,11 +1,13 @@
 package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.programmeris.myresume.api.dto.ResumeDto;
 import me.programmeris.myresume.api.entity.resume.Resume;
 import me.programmeris.myresume.api.repository.ResumeRepository;
 import me.programmeris.myresume.api.service.ResumeService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -15,12 +17,16 @@ public class ResumeServiceImpl implements ResumeService {
     private final ResumeRepository resumeRepository;
 
     @Override
-    public Resume getResume(Long id) {
-        return resumeRepository.findById(id).orElse(null);
+    public ResumeDto getResume(Long id, String useYn) {
+        Resume resume = resumeRepository.findOneByIdAndUseYn(id, (StringUtils.isEmpty(useYn) ? "Y" : useYn));
+
+        return ResumeDto.of(resume);
     }
 
     @Override
-    public Resume getResumeByDirectAccessId(String directAccessId) {
-        return resumeRepository.findOneByDirectAccessId(directAccessId);
+    public ResumeDto getResumeByDirectAccessId(String directAccessId, String useYn) {
+        Resume resume = resumeRepository.findOneByDirectAccessIdAndUseYn(directAccessId, (StringUtils.isEmpty(useYn) ? "Y" : useYn));
+
+        return ResumeDto.of(resume);
     }
 }

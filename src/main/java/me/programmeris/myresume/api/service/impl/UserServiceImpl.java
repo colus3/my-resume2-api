@@ -19,15 +19,13 @@ public class UserServiceImpl implements UserService {
     public UserDto getUser(String email) {
         User user = userRepository.findByEmail(email);
 
-        if (user == null || user.getId() == null) return null;
-        return new UserDto(user.getUsername(), user.getPhone(), user.getEmail());
+        return UserDto.of(user);
     }
 
     @Override
     public UserDto getUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
 
-        if (user == null || user.getId() == null) return null;
-        return new UserDto(user.getUsername(), user.getPhone(), user.getEmail());
+        return UserDto.of(user);
     }
 }

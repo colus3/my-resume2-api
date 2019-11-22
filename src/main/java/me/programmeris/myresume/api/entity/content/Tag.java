@@ -9,16 +9,10 @@ import javax.persistence.*;
 
 @Entity
 @Setter @Getter
-public class Skill extends Creatable {
+public class Tag extends Creatable {
 
     @Id @GeneratedValue
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "content_id")
-    private Content content;
-
     private String name;
-
 }
