@@ -2,7 +2,7 @@ package me.programmeris.myresume.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
-import me.programmeris.myresume.api.dto.Response;
+import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.service.ResumeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +23,7 @@ public class ResumeApiController {
     @GetMapping("/id/{direct_access_id:.+}")
     public Response getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
                                               @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
+
         return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId, useYn));
     }
 }

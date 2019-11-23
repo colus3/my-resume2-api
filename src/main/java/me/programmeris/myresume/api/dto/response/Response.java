@@ -1,7 +1,8 @@
-package me.programmeris.myresume.api.dto;
+package me.programmeris.myresume.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import me.programmeris.myresume.api.dto.Code;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)

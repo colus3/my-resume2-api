@@ -1,7 +1,7 @@
 package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import me.programmeris.myresume.api.dto.ResumeDto;
+import me.programmeris.myresume.api.dto.response.ResumeDto;
 import me.programmeris.myresume.api.entity.resume.Resume;
 import me.programmeris.myresume.api.repository.ResumeRepository;
 import me.programmeris.myresume.api.service.ResumeService;

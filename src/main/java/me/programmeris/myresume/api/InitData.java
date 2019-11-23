@@ -43,52 +43,54 @@ public class InitData {
         private final ContentRepository contentRepository;
 
         public void doInit() {
+            /* 사용자 생성 */
             User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
             userRepository.save(user);
 
+            /* 이력서 생성 */
             Resume resume = createResume(ResumeType.TYPE_1, "Default", "Y", user);
             resumeRepository.save(resume);
 
+            /* Profile 콘텐츠 생성 */
             Content profiles = createContent(1L,
                                              PROFILE,
                                              "MyProfile",
                                              user);
             contentRepository.save(profiles);
 
+            /* Profile 등록 */
             Profile myProfile = createProfile("나는 프로그래머다", "난 12년된 프로그래머다. 뭐든 할 수 있다.");
-            myProfile.setContent(profiles);
             profiles.addContentItem(myProfile);
 
+            /* 이력서에 Profile 콘텐츠 등록 */
             ResumeContent profileContent = createResumeContent("My Profile",
                                                                Position.LEFT);
-            profileContent.setResume(resume);
             profileContent.setContent(profiles);
-
             resume.addResumeContents(profileContent);
 
+            /* Education 콘텐츠 생성 */
             Content educations = createContent(2L,
                                                EDUCATION,
                                                "MyEducation",
                                                user);
             contentRepository.save(educations);
 
+            /* Education 1 생성 */
             Education education1 = createEducation(LocalDateTime.of(2015, 3, 10, 0, 0),
                                                    LocalDateTime.of(2015, 4, 10, 0, 0),
                                                    "교육 이수");
-            education1.setContent(educations);
             educations.addContentItem(education1);
 
+            /* Education 2 생성 */
             Education education2 = createEducation(LocalDateTime.of(2000, 3, 1, 0, 0),
                                                    LocalDateTime.of(2008, 2, 28, 0, 0),
                                                    "대학 졸업");
-            education2.setContent(educations);
             educations.addContentItem(education2);
 
+            /* 이력서에 Education 콘텐츠 등록 */
             ResumeContent educationContent = createResumeContent("My Education",
                                                                  Position.RIGHT);
             educationContent.setContent(educations);
-            educationContent.setResume(resume);
-
             resume.addResumeContents(educationContent);
         }
 

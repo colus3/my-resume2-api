@@ -1,4 +1,4 @@
-package me.programmeris.myresume.api.dto;
+package me.programmeris.myresume.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -29,6 +29,11 @@ public class ResumeContentItemDto implements ResponseData {
 
     public static <T extends ContentItem> ResumeContentItemDto of(T contentItem) {
 
-        return new ResumeContentItemDto(contentItem.getContent().getType(), null, contentItem.getContents(), null, null, null);
+        return new ResumeContentItemDto(contentItem.getContent().getType(),
+                null,
+                contentItem.getContents(),
+                null,
+                null,
+                null);
     }
 }

@@ -24,6 +24,7 @@ public class Content extends Updatable {
     private List<ContentItem> contentItems = new ArrayList<>();
 
     public void addContentItem(ContentItem contentItem) {
+        contentItem.setContent(this);
         contentItems.add(contentItem);
     }
 }

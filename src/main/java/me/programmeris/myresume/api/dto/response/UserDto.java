@@ -1,4 +1,4 @@
-package me.programmeris.myresume.api.dto;
+package me.programmeris.myresume.api.dto.response;
 
 import lombok.Getter;
 import me.programmeris.myresume.api.entity.user.User;

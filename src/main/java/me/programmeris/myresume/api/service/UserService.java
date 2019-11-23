@@ -1,6 +1,6 @@
 package me.programmeris.myresume.api.service;
 
-import me.programmeris.myresume.api.dto.UserDto;
+import me.programmeris.myresume.api.dto.response.UserDto;
 
 public interface UserService {
 

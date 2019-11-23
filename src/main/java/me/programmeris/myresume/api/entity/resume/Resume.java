@@ -42,6 +42,7 @@ public class Resume extends Deletable {
     private List<ResumeContent> resumeContents = new ArrayList<>();
 
     public void addResumeContents(ResumeContent resumeContent) {
+        resumeContent.setResume(this);
         resumeContents.add(resumeContent);
     }
 }

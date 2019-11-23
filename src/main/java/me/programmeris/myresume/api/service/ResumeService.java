@@ -1,6 +1,6 @@
 package me.programmeris.myresume.api.service;
 
-import me.programmeris.myresume.api.dto.ResumeDto;
+import me.programmeris.myresume.api.dto.response.ResumeDto;
 
 public interface ResumeService {
     ResumeDto getResume(Long id, String useYn);

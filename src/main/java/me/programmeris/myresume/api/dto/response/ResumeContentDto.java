@@ -1,4 +1,4 @@
-package me.programmeris.myresume.api.dto;
+package me.programmeris.myresume.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
