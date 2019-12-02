@@ -17,8 +17,6 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ContentDto getContent(Long id) {
-        Content content = contentRepository.findById(id).orElse(null);
-
-        return ContentDto.of(content);
+        return ContentDto.of(contentRepository.findById(id).orElse(null));
     }
 }
