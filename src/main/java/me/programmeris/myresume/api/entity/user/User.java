@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.entity.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.programmeris.myresume.api.entity.base.Address;
 import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.resume.Resume;
 
@@ -19,11 +20,12 @@ public class User extends Updatable {
     private Long id;
 
     private String username;
-
     private String moto;
+
+    @Column(unique = true)
     private String email;
     private String phone;
-    private String address;
+    private Address address;
     private LocalDate birthDate;
     private String image;
 

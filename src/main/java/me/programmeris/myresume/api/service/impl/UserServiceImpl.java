@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void insertUser(UserDto userDto) {
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        // TODO: 작성중.
+        User user = userDto.to(new User());
+        userRepository.save(user);
     }
 }
