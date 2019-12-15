@@ -38,7 +38,7 @@ public class Response<T extends ResponseData> {
 
     public static Response create(Code code) {
 
-        return new Response<>(code, null);
+        return new Response(code);
     }
 
     private Response(Code code, T data) {
@@ -55,6 +55,10 @@ public class Response<T extends ResponseData> {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    private Response(Code code) {
+        this.code = code;
     }
 
     private Response(String message) {
