@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void insertUser(UserDto userDto) {
-        User user = userDto.to(new User());
-        userRepository.save(user);
+    public UserDto insertUser(UserDto userDto) {
+        User user = userRepository.save(userDto.to(new User()));
+        return UserDto.of(user);
     }
 }

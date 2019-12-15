@@ -13,7 +13,7 @@ public class Response<T extends ResponseData> {
     private Code code;
     private String message;
     private T data;
-    @JsonProperty(value = "paging")
+    @JsonProperty(value = "dataList")
     private Page<T> pagingData;
 
     public static <T extends ResponseData> Response<T> create(Code code, T data) {
@@ -21,24 +21,24 @@ public class Response<T extends ResponseData> {
         return new Response<>(code, data);
     }
 
-    public static <T extends ResponseData> Response create(Code code, Page<T> data) {
+    public static <T extends ResponseData> Response<T> create(Code code, Page<T> data) {
 
         return new Response<>(code, data);
     }
 
-    public static Response create(Code code, String message) {
+    public static Response<Empty> create(Code code, String message) {
 
         return new Response<>(code, message, null);
     }
 
-    public static Response create(String message) {
+    public static Response<Empty> create(String message) {
 
-        return new Response(message);
+        return new Response<>(message);
     }
 
-    public static Response create(Code code) {
+    public static Response<Empty> create(Code code) {
 
-        return new Response(code);
+        return new Response<>(code);
     }
 
     private Response(Code code, T data) {

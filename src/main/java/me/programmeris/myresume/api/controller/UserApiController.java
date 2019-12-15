@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.dto.response.Empty;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.dto.response.UserDto;
 import me.programmeris.myresume.api.service.UserService;
@@ -27,10 +28,9 @@ public class UserApiController {
     }
 
     @PostMapping("")
-    public Response addUser(UserDto userDto) {
+    public Response<Empty> addUser(UserDto userDto) {
 
         userService.insertUser(userDto);
-
         return Response.create(Code.SUCCESS);
     }
 

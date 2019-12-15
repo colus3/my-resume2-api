@@ -25,9 +25,9 @@ public class UserDto implements ResponseData {
         return new UserDto(user.getUsername(),
                 user.getPhone(),
                 user.getEmail(),
-                user.getAddress().getZipCode(),
-                user.getAddress().getAddress1(),
-                user.getAddress().getAddress2());
+                user.getAddress() != null ? user.getAddress().getZipCode() : "",
+                user.getAddress() != null ? user.getAddress().getAddress1() : "",
+                user.getAddress() != null ? user.getAddress().getAddress2() : "");
     }
 
     public User to(User user) {
