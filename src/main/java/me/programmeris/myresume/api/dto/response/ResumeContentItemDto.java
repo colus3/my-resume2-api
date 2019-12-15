@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
@@ -10,30 +11,36 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResumeContentItemDto implements ResponseData {
 
+    @JsonIgnore
     private String contentType;
     private String title;
     private String contents;
     private LocalDateTime startDt;
     private LocalDateTime endDt;
 
-    private Double skillPoint;
+    private String tagName;
+    private Double point;
 
-    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, Double skillPoint) {
+    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, String tagName, Double point) {
         this.contentType = contentType;
         this.title = title;
         this.contents = contents;
         this.startDt = startDt;
         this.endDt = endDt;
-        this.skillPoint = skillPoint;
+        this.tagName = tagName;
+        this.point = point;
     }
 
     public static <T extends ContentItem> ResumeContentItemDto of(T contentItem) {
 
-        return new ResumeContentItemDto(contentItem.getContent().getType(),
-                null,
-                contentItem.getContents(),
-                null,
-                null,
-                null);
+        ContentItemDto contentItemDto = ContentItemDto.of(contentItem);
+
+        return new ResumeContentItemDto(contentItemDto.getContentType(),
+                contentItemDto.getTitle(),
+                contentItemDto.getContents(),
+                contentItemDto.getStartDt(),
+                contentItemDto.getEndDt(),
+                contentItemDto.getTagName(),
+                contentItemDto.getPoint());
     }
 }

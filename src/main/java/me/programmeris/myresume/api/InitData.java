@@ -1,8 +1,11 @@
 package me.programmeris.myresume.api;
 
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.entity.content.Content;
+import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.Education;
+import me.programmeris.myresume.api.entity.content.item.Interest;
 import me.programmeris.myresume.api.entity.content.item.Profile;
 import me.programmeris.myresume.api.entity.resume.Position;
 import me.programmeris.myresume.api.entity.resume.Resume;
@@ -11,15 +14,16 @@ import me.programmeris.myresume.api.entity.resume.ResumeType;
 import me.programmeris.myresume.api.entity.user.User;
 import me.programmeris.myresume.api.repository.ContentRepository;
 import me.programmeris.myresume.api.repository.ResumeRepository;
+import me.programmeris.myresume.api.repository.TagRepository;
 import me.programmeris.myresume.api.repository.UserRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static me.programmeris.myresume.api.entity.content.ContentType.EDUCATION;
-import static me.programmeris.myresume.api.entity.content.ContentType.PROFILE;
+import static me.programmeris.myresume.api.entity.content.ContentType.*;
 
 @Component
 @RequiredArgsConstructor
@@ -29,9 +33,9 @@ public class InitData {
 
     @PostConstruct
     public void init() {
-        initService.doInit();
+        initService.doInitTags();
+        initService.doInitValues();
     }
-
 
     @Component
     @Transactional
@@ -41,8 +45,40 @@ public class InitData {
         private final UserRepository userRepository;
         private final ResumeRepository resumeRepository;
         private final ContentRepository contentRepository;
+        private final TagRepository tagRepository;
 
-        public void doInit() {
+        public void doInitTags() {
+
+            List<String> tags = Lists.newArrayList(
+                    "Java",
+                    "Scala",
+                    "C/C++",
+                    "C#",
+                    "Java8",
+                    "Swift",
+                    "NodeJs",
+                    "ReactJs",
+                    "Python",
+                    "Spring",
+                    "Oracle",
+                    "Altibase",
+                    "MSSql",
+                    "MySql",
+                    "Redis",
+                    "MongoDB",
+                    "OrientDB",
+                    "SNMP",
+                    "RespberryPi",
+                    "Nginx",
+                    "cUrl",
+                    "Socket",
+                    "GZip"
+            );
+
+            tags.stream().map(Tag::new).forEach(tagRepository::save);
+        }
+
+        public void doInitValues() {
             /* 사용자 생성 */
             User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
             userRepository.save(user);
@@ -92,6 +128,33 @@ public class InitData {
                                                                  Position.RIGHT);
             educationContent.setContent(educations);
             resume.addResumeContents(educationContent);
+
+            /* Interest 콘텐츠 생성 */
+            Content interests = createContent(3L,
+                    INTEREST,
+                    "MyInterest",
+                    user);
+            contentRepository.save(interests);
+
+            /* Interest 생성 */
+            Interest java = createInterest("Java");
+            interests.addContentItem(java);
+
+            Interest java8 = createInterest("Java8");
+            interests.addContentItem(java8);
+
+            /* 이력서에 Interest 콘텐츠 등록 */
+            ResumeContent interestContent = createResumeContent("My Interest",
+                    Position.LEFT);
+            interestContent.setContent(interests);
+            resume.addResumeContents(interestContent);
+        }
+
+        private Interest createInterest(String tagName) {
+            Interest interest = new Interest();
+            Tag tag = tagRepository.findByName(tagName);
+            interest.setTag(tag);
+            return interest;
         }
 
         private Education createEducation(LocalDateTime startDt, LocalDateTime endDt, String contents) {

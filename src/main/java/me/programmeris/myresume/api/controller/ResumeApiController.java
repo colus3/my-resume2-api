@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.service.ResumeService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +28,17 @@ public class ResumeApiController {
                                               @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
         return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId, useYn));
+    }
+
+    @GetMapping("/user-id/{id:[0-9]+}")
+    public Response getResumeByUserIdWithPaging(@PathVariable("id") Long id,
+                                                   @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return Response.create(Code.SUCCESS, resumeService.getResumeByUserId(id, pageable));
+    }
+
+    @GetMapping("/email/{email:.+@.+}")
+    public Response getResumeByUserEmailWithPaging(@PathVariable("email") String email,
+                                                   @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return Response.create(Code.SUCCESS, resumeService.getResumeByUserEmail(email, pageable));
     }
 }

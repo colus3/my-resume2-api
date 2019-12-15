@@ -12,13 +12,15 @@ import static java.util.stream.Collectors.toList;
 @Getter
 public class ResumeContentDto implements ResponseData {
 
+    private String contentType;
     private String displayName;
     private Long displayOrder;
     private Position position;
     @JsonProperty(value = "content")
     private List<ResumeContentItemDto> resumeContentItemDtos;
 
-    private ResumeContentDto(String displayName, Long displayOrder, Position position, List<ResumeContentItemDto> resumeContentItemDtos) {
+    private ResumeContentDto(String contentType, String displayName, Long displayOrder, Position position, List<ResumeContentItemDto> resumeContentItemDtos) {
+        this.contentType = contentType;
         this.displayName = displayName;
         this.displayOrder = displayOrder;
         this.position = position;
@@ -27,7 +29,9 @@ public class ResumeContentDto implements ResponseData {
 
     public static ResumeContentDto of(ResumeContent resumeContent) {
 
-        return new ResumeContentDto(resumeContent.getDisplayName(),
+        return new ResumeContentDto(
+                resumeContent.getContent().getType(),
+                resumeContent.getDisplayName(),
                 resumeContent.getDisplayOrder(),
                 resumeContent.getPosition(),
                 resumeContent.getContent().getContentItems()
