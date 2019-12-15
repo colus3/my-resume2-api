@@ -12,7 +12,7 @@ public class Response<T extends ResponseData> {
     private String message;
     private T data;
 
-    public static <T extends ResponseData> Response create(Code code, T data) {
+    public static <T extends ResponseData> Response<T> create(Code code, T data) {
 
         return new Response<>(code, data);
     }
@@ -20,6 +20,11 @@ public class Response<T extends ResponseData> {
     public static Response create(Code code, String message) {
 
         return new Response<>(code, message, null);
+    }
+
+    public static Response create(Code code) {
+
+        return new Response<>(code, null);
     }
 
     private Response(Code code, T data) {

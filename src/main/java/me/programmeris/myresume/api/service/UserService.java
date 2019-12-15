@@ -6,4 +6,6 @@ public interface UserService {
 
     UserDto getUser(String email);
     UserDto getUser(Long id);
+
+    void insertUser(UserDto userDto);
 }

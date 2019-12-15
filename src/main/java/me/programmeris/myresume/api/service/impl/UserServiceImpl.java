@@ -28,4 +28,11 @@ public class UserServiceImpl implements UserService {
 
         return UserDto.of(user);
     }
+
+    @Override
+    public void insertUser(UserDto userDto) {
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        // TODO: 작성중.
+    }
 }
