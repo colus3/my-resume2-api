@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response<T extends ResponseData> {
 
-    private Code code;
+    private Integer code;
     private String message;
     private T data;
     @JsonProperty(value = "dataList")
@@ -42,27 +42,33 @@ public class Response<T extends ResponseData> {
     }
 
     private Response(Code code, T data) {
-        this.code = code;
+        this.code = code.getCode();
+        this.message = code.name();
         this.data = data;
     }
 
     private Response(Code code, Page<T> data) {
-        this.code = code;
+        this.code = code.getCode();
+        this.message = code.name();
         this.pagingData = data;
     }
 
     private Response(Code code, String message, T data) {
-        this.code = code;
-        this.message = message;
+        this.code = code.getCode();
+        this.message = code.name();
+        if (code == Code.USER_DEFINED) {
+            this.message = message;
+        }
         this.data = data;
     }
 
     private Response(Code code) {
-        this.code = code;
+        this.code = code.getCode();
+        this.message = code.name();
     }
 
     private Response(String message) {
-        this.code = Code.USER_DEFINED;
+        this.code = Code.USER_DEFINED.getCode();
         this.message = message;
     }
 }

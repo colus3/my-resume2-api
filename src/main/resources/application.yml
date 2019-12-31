@@ -19,4 +19,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: info
+
+server:
+  port: 8090
 #    org.hibernate.type: trace
