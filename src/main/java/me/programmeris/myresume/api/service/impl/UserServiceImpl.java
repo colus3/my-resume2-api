@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDto> getUsers(String email, Pageable pageable) {
-        return userRepository.findAllByEmail(email, pageable).map(UserDto::of);
+        Page<User> users = null;
+        if (StringUtils.isEmpty(email)) {
+            users = userRepository.findAll(pageable);
+        } else {
+            users = userRepository.findAllByEmail(email, pageable);
+        }
+        return users.map(UserDto::of);
     }
 
     @Override
