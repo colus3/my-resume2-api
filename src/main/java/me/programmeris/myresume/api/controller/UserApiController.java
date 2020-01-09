@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v2/users")
 @RequiredArgsConstructor
@@ -17,14 +18,12 @@ public class UserApiController {
 
     private final UserService userService;
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
     @GetMapping("/email/{email:.+}")
     public Response<UserDto> getUser(@PathVariable String email) {
 
         return Response.create(Code.SUCCESS, userService.getUser(email));
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
     @GetMapping("{id:[0-9]+}")
     public Response<UserDto> getUser(@PathVariable Long id) {
 
@@ -38,7 +37,6 @@ public class UserApiController {
         return Response.create(Code.SUCCESS);
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"})
     @GetMapping("")
     public Response<UserDto> getUsers(@RequestParam(name = "email", required = false) String email,
                                       @PageableDefault(size = 20) Pageable pageable) {

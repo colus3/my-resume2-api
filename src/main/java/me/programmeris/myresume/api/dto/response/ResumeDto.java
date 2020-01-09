@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.programmeris.myresume.api.entity.resume.Resume;
 import me.programmeris.myresume.api.entity.resume.ResumeType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -17,6 +18,7 @@ public class ResumeDto implements ResponseData {
     private String name;
     private String useYn;
     private String resumeUrl;
+    private LocalDateTime createDt;
 
     @JsonProperty(value = "user")
     private UserDto userDto;
@@ -24,12 +26,13 @@ public class ResumeDto implements ResponseData {
     @JsonProperty(value = "resume_contents")
     private List<ResumeContentDto> resumeContentDtos;
 
-    public ResumeDto(String id, ResumeType type, String name, String useYn, String resumeUrl, UserDto userDto, List<ResumeContentDto> resumeContentDtos) {
+    public ResumeDto(String id, ResumeType type, String name, String useYn, String resumeUrl, LocalDateTime createDt, UserDto userDto, List<ResumeContentDto> resumeContentDtos) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.useYn = useYn;
         this.resumeUrl = resumeUrl;
+        this.createDt = createDt;
         this.userDto = userDto;
         this.resumeContentDtos = resumeContentDtos;
     }
@@ -42,6 +45,7 @@ public class ResumeDto implements ResponseData {
                 resume.getResumeName(),
                 resume.getUseYn(),
                 resume.getResumeShortUrl(),
+                resume.getCreateDt(),
                 UserDto.of(resume.getUser()),
                 resume.getResumeContents().stream().map(ResumeContentDto::of).collect(toList()));
     }
