@@ -98,7 +98,13 @@ public class InitData {
             ResumeContent profileContent = createResumeContent("My Profile",
                                                                Position.LEFT);
             profileContent.setContent(profiles);
-            resume.addResumeContents(profileContent);
+
+            resumeRepository.flush();
+
+            /* 이력서 콘텐츠에도 별도로 추가 */
+            ResumeContentItem profileResumeContentItem = createResumeContentItem(myProfile);
+
+            resume.addResumeContents(profileContent, profileResumeContentItem);
 
             /* Education 콘텐츠 생성 */
             Content educations = createContent(2L,
@@ -111,19 +117,24 @@ public class InitData {
             Education education1 = createEducation(LocalDateTime.of(2015, 3, 10, 0, 0),
                                                    LocalDateTime.of(2015, 4, 10, 0, 0),
                                                    "교육 이수");
-            educations.addContentItem(education1);
 
             /* Education 2 생성 */
             Education education2 = createEducation(LocalDateTime.of(2000, 3, 1, 0, 0),
                                                    LocalDateTime.of(2008, 2, 28, 0, 0),
                                                    "대학 졸업");
-            educations.addContentItem(education2);
+            educations.addContentItem(education1, education2);
 
             /* 이력서에 Education 콘텐츠 등록 */
             ResumeContent educationContent = createResumeContent("My Education",
                                                                  Position.RIGHT);
             educationContent.setContent(educations);
-            resume.addResumeContents(educationContent);
+
+            resumeRepository.flush();
+
+            /* 이력서 콘텐츠에도 별도로 추가 */
+            ResumeContentItem education2ResumeContentItem = createResumeContentItem(education2);
+
+            resume.addResumeContents(educationContent, education2ResumeContentItem);
 
             /* Interest 콘텐츠 생성 */
             Content interests = createContent(3L,
