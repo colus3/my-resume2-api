@@ -47,6 +47,7 @@ public class ResumeDto implements ResponseData {
                 resume.getResumeShortUrl(),
                 resume.getCreateDt(),
                 UserDto.of(resume.getUser()),
-                resume.getResumeContents().stream().map(ResumeContentDto::of).collect(toList()));
+                resume.getResumeContents().stream().map(ResumeContentDto::of).collect(toList())
+        );
     }
 }

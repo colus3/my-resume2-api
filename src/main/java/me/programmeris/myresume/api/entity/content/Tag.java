@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.entity.content;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import me.programmeris.myresume.api.entity.base.Creatable;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 
 @Entity
 @Setter @Getter
+@ToString
 public class Tag extends Creatable {
 
     @Id @GeneratedValue

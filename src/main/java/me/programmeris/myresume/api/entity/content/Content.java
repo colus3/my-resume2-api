@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.entity.content;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@ToString
 public class Content extends Updatable {
 
     @Id @GeneratedValue
@@ -23,8 +25,11 @@ public class Content extends Updatable {
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContentItem> contentItems = new ArrayList<>();
 
-    public void addContentItem(ContentItem contentItem) {
-        contentItem.setContent(this);
-        contentItems.add(contentItem);
+    public void addContentItem(ContentItem... items) {
+        if (items == null) return;
+        for (ContentItem item : items) {
+            item.setContent(this);
+            contentItems.add(item);
+        }
     }
 }

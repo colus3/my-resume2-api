@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.entity.content.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.content.Content;
 
@@ -14,6 +15,7 @@ import static javax.persistence.FetchType.*;
 @DiscriminatorColumn(name="content_type",
         discriminatorType=DiscriminatorType.STRING)
 @Getter @Setter
+@ToString
 public abstract class ContentItem extends Updatable {
 
     @Id @GeneratedValue

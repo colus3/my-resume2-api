@@ -4,18 +4,13 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.entity.content.Content;
 import me.programmeris.myresume.api.entity.content.Tag;
+import me.programmeris.myresume.api.entity.content.item.ContentItem;
 import me.programmeris.myresume.api.entity.content.item.Education;
 import me.programmeris.myresume.api.entity.content.item.Interest;
 import me.programmeris.myresume.api.entity.content.item.Profile;
-import me.programmeris.myresume.api.entity.resume.Position;
-import me.programmeris.myresume.api.entity.resume.Resume;
-import me.programmeris.myresume.api.entity.resume.ResumeContent;
-import me.programmeris.myresume.api.entity.resume.ResumeType;
+import me.programmeris.myresume.api.entity.resume.*;
 import me.programmeris.myresume.api.entity.user.User;
-import me.programmeris.myresume.api.repository.ContentRepository;
-import me.programmeris.myresume.api.repository.ResumeRepository;
-import me.programmeris.myresume.api.repository.TagRepository;
-import me.programmeris.myresume.api.repository.UserRepository;
+import me.programmeris.myresume.api.repository.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +41,7 @@ public class InitData {
         private final ResumeRepository resumeRepository;
         private final ContentRepository contentRepository;
         private final TagRepository tagRepository;
+        private final ResumeContentItemRepository resumeContentItemRepository;
 
         public void doInitTags() {
 
@@ -138,16 +134,22 @@ public class InitData {
 
             /* Interest 생성 */
             Interest java = createInterest("Java");
-            interests.addContentItem(java);
-
             Interest java8 = createInterest("Java8");
-            interests.addContentItem(java8);
+            interests.addContentItem(java, java8);
 
             /* 이력서에 Interest 콘텐츠 등록 */
             ResumeContent interestContent = createResumeContent("My Interest",
                     Position.LEFT);
+
             interestContent.setContent(interests);
-            resume.addResumeContents(interestContent);
+
+            resumeRepository.flush();
+
+            /* 이력서 콘텐츠에도 별도로 추가 */
+            ResumeContentItem javaResumeContentItem = createResumeContentItem(java);
+            ResumeContentItem java8ResumeContentItem = createResumeContentItem(java8);
+
+            resume.addResumeContents(interestContent, javaResumeContentItem, java8ResumeContentItem);
         }
 
         private Interest createInterest(String tagName) {
@@ -213,6 +215,13 @@ public class InitData {
             user.setUpdateUserId(1L);
             user.setUpdateDt(LocalDateTime.now());
             return user;
+        }
+
+        private <T extends ContentItem> ResumeContentItem createResumeContentItem(T item) {
+            ResumeContentItem resumeContentItem = new ResumeContentItem();
+            resumeContentItem.setContentItem(item);
+
+            return resumeContentItem;
         }
     }
 }

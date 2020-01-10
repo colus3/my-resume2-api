@@ -3,12 +3,14 @@ package me.programmeris.myresume.api.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
 
 import java.time.LocalDateTime;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Slf4j
 public class ResumeContentItemDto implements ResponseData {
 
     @JsonIgnore
@@ -32,6 +34,9 @@ public class ResumeContentItemDto implements ResponseData {
     }
 
     public static <T extends ContentItem> ResumeContentItemDto of(T contentItem) {
+
+        log.error("contentItem.Class {}", contentItem.getClass());
+        log.error("contentItem {}", contentItem);
 
         ContentItemDto contentItemDto = ContentItemDto.of(contentItem);
 

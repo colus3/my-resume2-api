@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+  db:
+    container_name: my-resume_v2
+    image: mariadb:10.3
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=qweiop
+      - MYSQL_DATABASE=my_resume_v2
+    healthcheck:
+      test:  mysql --user=root --password=qweiop -e "show databases;"
+      interval: 3s
+      timeout: 1s
+      retries: 5
+    volumes:
+      - .db/data:/var/lib/mysql:rw
+      - .db/config:/etc/mysql:ro
+    restart: always
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1']

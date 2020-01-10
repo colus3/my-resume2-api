@@ -1,22 +1,21 @@
 package me.programmeris.myresume.api.entity.resume;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import me.programmeris.myresume.api.entity.base.Deletable;
-import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.user.User;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
+@ToString(exclude = {"user"})
 public class Resume extends Deletable {
 
     @Id @GeneratedValue
@@ -33,7 +32,6 @@ public class Resume extends Deletable {
     @Enumerated(EnumType.STRING)
     private ResumeUIType resumeUIType = ResumeUIType.bootstrap;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,8 +39,11 @@ public class Resume extends Deletable {
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResumeContent> resumeContents = new ArrayList<>();
 
-    public void addResumeContents(ResumeContent resumeContent) {
+    public void addResumeContents(ResumeContent resumeContent, ResumeContentItem... items) {
         resumeContent.setResume(this);
+        if (items != null) {
+            resumeContent.addResumeContentItems(items);
+        }
         resumeContents.add(resumeContent);
     }
 }

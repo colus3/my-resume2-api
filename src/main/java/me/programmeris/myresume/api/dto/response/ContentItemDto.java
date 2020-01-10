@@ -52,9 +52,13 @@ public class ContentItemDto implements ResponseData {
                         null, null);
 
             case ContentType.INTEREST:
+                log.error("ContentItem.Class = {}", contentItem.getClass());
+                log.error("ContentItem = {}", contentItem);
+                log.error("ContentItem.Content = {}", contentItem.getContent());
+                log.error("ContentItem.Tag = {}", ((Interest)contentItem).getTag().getName());
                 return new ContentItemDto(contentItem.getContent().getType(),
                                           null,
-                                          contentItem.getContents(),
+                                          null,
                                           null, null,
                                           ((Interest) contentItem).getTag().getName(),
                                           null);
