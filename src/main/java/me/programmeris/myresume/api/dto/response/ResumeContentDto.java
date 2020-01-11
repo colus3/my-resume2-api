@@ -16,16 +16,16 @@ import static java.util.stream.Collectors.toList;
 @Getter
 public class ResumeContentDto implements ResponseData {
 
-    private String contentType;
-    private String displayName;
+    private String type;
+    private String name;
     private Long displayOrder;
     private Position position;
-    @JsonProperty(value = "content")
+    @JsonProperty(value = "items")
     private List<ResumeContentItemDto> resumeContentItemDtos;
 
-    private ResumeContentDto(String contentType, String displayName, Long displayOrder, Position position, List<ResumeContentItemDto> resumeContentItemDtos) {
-        this.contentType = contentType;
-        this.displayName = displayName;
+    private ResumeContentDto(String type, String name, Long displayOrder, Position position, List<ResumeContentItemDto> resumeContentItemDtos) {
+        this.type = type;
+        this.name = name;
         this.displayOrder = displayOrder;
         this.position = position;
         this.resumeContentItemDtos = resumeContentItemDtos;

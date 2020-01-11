@@ -202,6 +202,7 @@ public class InitData {
             content.setName(contentName);
             content.setCreateUserId(user.getId());
             content.setUpdateUserId(user.getId());
+            content.setUser(user);
             return content;
         }
 
