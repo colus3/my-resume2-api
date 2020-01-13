@@ -9,5 +9,6 @@ public interface UserService {
     UserDto getUser(String email);
     UserDto getUser(Long id);
     Page<UserDto> getUsers(String email, Pageable pageable);
-    UserDto insertUser(UserDto userDto);
+    void addUser(UserDto userDto);
+    void editUser(String email, UserDto userDto);
 }

@@ -5,6 +5,7 @@ import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.response.ContentDto;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.service.ContentService;
+import me.programmeris.myresume.api.session.annotation.Session;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -29,4 +30,20 @@ public class ContentApiController {
 
         return Response.create(Code.SUCCESS, contentService.getContentsByEmail(email, pageable));
     }
+
+    @Session
+    @PostMapping("")
+    public void addContent(@RequestBody ContentDto contentDto) {
+
+        contentService.addContent(contentDto);
+    }
+
+    @Session
+    @PutMapping("{id:.+}")
+    public void editContent(@PathVariable("id") Long id,
+                            @RequestBody ContentDto contentDto) {
+
+        contentService.editContent(id, contentDto);
+    }
+
 }

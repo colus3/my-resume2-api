@@ -6,6 +6,7 @@ import me.programmeris.myresume.api.dto.response.Empty;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.dto.response.UserDto;
 import me.programmeris.myresume.api.service.UserService;
+import me.programmeris.myresume.api.session.annotation.Session;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,16 @@ public class UserApiController {
     @PostMapping("")
     public Response<Empty> addUser(UserDto userDto) {
 
-        userService.insertUser(userDto);
+        userService.addUser(userDto);
+        return Response.create(Code.SUCCESS);
+    }
+
+    @Session
+    @PutMapping("/email/{email:.+}")
+    public Response<Empty> editUser(@PathVariable("email") String email,
+                                    @RequestBody UserDto userDto) {
+
+        userService.editUser(email, userDto);
         return Response.create(Code.SUCCESS);
     }
 
@@ -41,6 +51,6 @@ public class UserApiController {
     public Response<UserDto> getUsers(@RequestParam(name = "email", required = false) String email,
                                       @PageableDefault(size = 20) Pageable pageable) {
         return Response.create(Code.SUCCESS,
-                               userService.getUsers(email, pageable));
+                userService.getUsers(email, pageable));
     }
 }

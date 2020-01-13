@@ -10,4 +10,8 @@ public interface ContentService {
     Page<ContentDto> getContentsByEmail(String email, Pageable pageable);
 
     Page<ContentDto> getContentsById(Long id, Pageable pageable);
+
+    void addContent(ContentDto contentDto);
+
+    void editContent(Long id, ContentDto contentDto);
 }

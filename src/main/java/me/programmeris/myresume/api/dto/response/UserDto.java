@@ -50,7 +50,6 @@ public class UserDto implements ResponseData {
         user.setUsername(this.getUsername());
         user.setPhone(this.getPhone());
         user.setAddress(this.getAddress());
-        user.setCreateDt(this.getCreateDt());
 
         return user;
     }

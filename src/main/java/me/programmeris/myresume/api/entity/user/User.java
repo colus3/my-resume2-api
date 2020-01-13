@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.programmeris.myresume.api.entity.base.Address;
 import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.resume.Resume;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@DynamicUpdate
 public class User extends Updatable {
 
     @Id @GeneratedValue

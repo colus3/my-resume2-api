@@ -37,4 +37,14 @@ public class ContentDto implements ResponseData {
                 content.getCreateDt(),
                 content.getContentItems().stream().map(ContentItemDto::of).collect(toList()));
     }
+
+    public Content toEntity() {
+        Content newContent = new Content();
+        newContent.setType(type);
+        newContent.setName(name);
+        newContent.setDisplayOrder(displayOrder);
+        // TODO: ContentItem 추가하는 로직 넣아야 함.
+
+        return newContent;
+    }
 }

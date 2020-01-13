@@ -6,6 +6,7 @@ import lombok.ToString;
 import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
 import me.programmeris.myresume.api.entity.user.User;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter @Setter
 @ToString
+@DynamicUpdate
 public class Content extends Updatable {
 
     @Id @GeneratedValue
