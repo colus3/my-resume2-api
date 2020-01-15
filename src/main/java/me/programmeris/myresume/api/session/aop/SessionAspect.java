@@ -2,18 +2,22 @@ package me.programmeris.myresume.api.session.aop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.entity.session.AccessToken;
+import me.programmeris.myresume.api.exception.CodedException;
 import me.programmeris.myresume.api.service.AccessTokenService;
 import me.programmeris.myresume.api.session.Session;
 import me.programmeris.myresume.api.tool.CookieUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,47 +30,59 @@ public class SessionAspect {
     private final AccessTokenService accessTokenService;
 
     @Before("@annotation(me.programmeris.myresume.api.session.annotation.Session) && @annotation(target)")
-    private void procSession(JoinPoint joinPoint, me.programmeris.myresume.api.session.annotation.Session target) throws Throwable {
+    private void preProc(JoinPoint joinPoint, me.programmeris.myresume.api.session.annotation.Session target) throws Throwable {
 
         List<Object> args = Arrays.asList(joinPoint.getArgs());
-        log.debug("================ SessionAspect getSession s ================");
+        log.debug("================ SessionAspect preProc s ================");
         HttpServletRequest request = getRequest(args);
-        HttpServletResponse response = getResponse(args);
+
+        LocalDateTime now = LocalDateTime.now();
 
         // 쿠키 값으로 세션 조회
-        initSession(request);
+        initSession(request, now);
 
         // 세션 체크 후 DB에 저장된 세션 정보를 업데이트
         if (checkSession()) {
-            updateSession();
+            updateSession(now);
         }
-
-
-        log.debug("================ SessionAspect getSession e ================");
+        log.debug("================ SessionAspect preProc e ================");
     }
 
-    private void updateSession() {
+    @After("@annotation(me.programmeris.myresume.api.session.annotation.Session)")
+    private void postProc() {
+        log.debug("================ SessionAspect postProc s ===============");
+        clearSession();
+        log.debug("================ SessionAspect postProc e ===============");
+    }
 
-        accessTokenService.updateAccessToken(Session.key.get());
+    private void clearSession() {
+        Session.user.set(null);
+        Session.token.set("");
+        Session.isLoggedIn.set(false);
+    }
+
+    private void updateSession(LocalDateTime now) {
+
+        accessTokenService.updateAccessToken(Session.token.get(), now);
         Session.isLoggedIn.set(true);
     }
 
-    private void initSession(HttpServletRequest request) {
-        String tokenKey = CookieUtils.getValue(request.getCookies(), Session.ACCESS_TOKEN_COOKIE_NAME);
+    private void initSession(HttpServletRequest request, LocalDateTime now) {
+        String token = CookieUtils.getValue(request.getCookies(), Session.ACCESS_TOKEN_COOKIE_NAME);
 
-        if (tokenKey != null) {
-            AccessToken accessToken = accessTokenService.getAccessToken(tokenKey);
+        if (token != null) {
+            AccessToken accessToken = accessTokenService.getAccessToken(token, now);
 
-            Session.key.set(tokenKey);
+            Session.token.set(token);
             Session.user.set(accessToken.getUser());
         }
     }
 
     private boolean checkSession() {
         // 세션이 없으면 exception
-        if (StringUtils.isEmpty(Session.key.get())) {
+        if (StringUtils.isEmpty(Session.token.get())) {
             Session.isLoggedIn.set(false);
-            throw new RuntimeException();
+            throw new CodedException(Code.INVALID_SESSION);
         }
         return true;
     }

@@ -1,8 +1,10 @@
 package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.response.ContentDto;
 import me.programmeris.myresume.api.entity.content.Content;
+import me.programmeris.myresume.api.exception.CodedException;
 import me.programmeris.myresume.api.repository.ContentRepository;
 import me.programmeris.myresume.api.service.ContentService;
 import org.springframework.data.domain.Page;
@@ -47,7 +49,7 @@ public class ContentServiceImpl implements ContentService {
         Content content = contentRepository.findById(id).orElse(null);
         if (content == null) {
             // TODO: 예외 처리 관련해서 새로 정리 해야 함.
-            throw new RuntimeException();
+            throw new CodedException(Code.NOT_EXISTS_CONTENT);
         }
 
         content.setName(contentDto.getName());

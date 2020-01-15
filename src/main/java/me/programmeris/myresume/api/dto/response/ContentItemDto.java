@@ -2,7 +2,6 @@ package me.programmeris.myresume.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import me.programmeris.myresume.api.entity.content.ContentType;
 import me.programmeris.myresume.api.entity.content.item.*;
 
@@ -34,62 +33,51 @@ public class ContentItemDto implements ResponseData {
     public static <T extends ContentItem> ContentItemDto of(T contentItem) {
         if (contentItem == null) return null;
 
+        String title = null;
+        String contents = contentItem.getContents();
+        LocalDateTime startDt = null;
+        LocalDateTime endDt = null;
+        String tagName = null;
+        Double point = null;
         String contentType = contentItem.getContent().getType();
         switch (contentType) {
             case ContentType.PROFILE:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                                          ((Profile) contentItem).getTitle(),
-                                          contentItem.getContents(),
-                                          null, null, null, null);
+                title = ((Profile) contentItem).getTitle();
+                break;
 
             case ContentType.EDUCATION:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                        null,
-                        contentItem.getContents(),
-                        ((Education) contentItem).getStartDt(),
-                        ((Education) contentItem).getEndDt(),
-                        null, null);
+                startDt = ((Education) contentItem).getStartDt();
+                endDt = ((Education) contentItem).getEndDt();
+                break;
 
             case ContentType.INTEREST:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                                          null,
-                                          contentItem.getContents(),
-                                          null, null,
-                                          ((Interest) contentItem).getTag().getName(),
-                                          null);
+                tagName = ((Interest) contentItem).getTag().getName();
+                break;
 
             case ContentType.SKILL:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                                          null,
-                                          contentItem.getContents(),
-                                          null, null,
-                                          ((Skill) contentItem).getTag().getName(),
-                                          ((Skill) contentItem).getPoint());
+                tagName = ((Skill) contentItem).getTag().getName();
+                point = ((Skill) contentItem).getPoint();
+                break;
 
             case ContentType.WORK_EXPERIENCE:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                                          null,
-                                          contentItem.getContents(),
-                                          ((WorkExperience) contentItem).getStartDt(),
-                                          ((WorkExperience) contentItem).getEndDt(),
-                                          null, null);
+                startDt = ((WorkExperience) contentItem).getStartDt();
+                endDt = ((WorkExperience) contentItem).getEndDt();
+                break;
 
             case ContentType.PROJECT_EXPERIENCE:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                                          null,
-                                          contentItem.getContents(),
-                                          ((ProjectExperience) contentItem).getStartDt(),
-                                          ((ProjectExperience) contentItem).getEndDt(),
-                                          null, null);
+                startDt = ((ProjectExperience) contentItem).getStartDt();
+                endDt = ((ProjectExperience) contentItem).getEndDt();
+                break;
 
-            default:
-                return new ContentItemDto(contentItem.getContent().getType(),
-                        null,
-                        contentItem.getContents(),
-                        null,
-                        null,
-                        null,
-                        null);
+            default: break;
         }
+        return new ContentItemDto(contentType,
+                title,
+                contents,
+                startDt,
+                endDt,
+                tagName,
+                point);
+
     }
 }

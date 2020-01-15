@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Table(name = "token")
 @Getter @Setter
 public class AccessToken extends Updatable {
 
@@ -20,9 +21,9 @@ public class AccessToken extends Updatable {
     @Column(name = "token_id")
     private Long id;
 
-    private String key;
+    private String token;
 
-    private LocalDateTime expiredDT;
+    private LocalDateTime expiredDt;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")

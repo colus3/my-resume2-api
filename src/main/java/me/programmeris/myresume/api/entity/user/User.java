@@ -20,13 +20,13 @@ public class User extends Updatable {
     @Id @GeneratedValue
     @Column(name = "user_id")
     private Long id;
-
-    private String username;
-    private String moto;
-
     @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String phone;
+    private String password;
+
+    private String username;
     private Address address;
     private LocalDate birthDate;
     private String image;

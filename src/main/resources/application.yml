@@ -23,3 +23,6 @@ logging:
 server:
   port: 8090
 #    org.hibernate.type: trace
+
+token:
+  expiration_time: 30

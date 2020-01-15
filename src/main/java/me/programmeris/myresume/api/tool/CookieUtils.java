@@ -1,6 +1,7 @@
 package me.programmeris.myresume.api.tool;
 
-import org.springframework.util.StringUtils;
+import me.programmeris.myresume.api.exception.CodedException;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.Cookie;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public class CookieUtils {
         if (cookies == null) return null;
         List<Cookie> cookieList = Arrays.asList(cookies);
         return cookieList.stream()
-                .filter(e -> StringUtils.pathEquals(key, e.getName()))
+                .filter(e -> StringUtils.equals(key, e.getName()))
                 .findFirst()
                 .orElse(null);
     }
@@ -97,7 +98,7 @@ public class CookieUtils {
 
         public Cookie build() throws RuntimeException {
             if (StringUtils.isEmpty(this.name)) {
-                throw new RuntimeException("Cookie creation failed.");
+                throw new CodedException("Cookie creation failed.");
             } else {
                 Cookie cookie = new Cookie(this.name, this.value);
                 if (this.httpOnly != null) {

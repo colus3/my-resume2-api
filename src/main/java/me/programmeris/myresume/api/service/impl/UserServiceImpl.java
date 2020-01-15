@@ -1,24 +1,36 @@
 package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.dto.request.LoginForm;
+import me.programmeris.myresume.api.dto.request.SignUpForm;
 import me.programmeris.myresume.api.dto.response.UserDto;
+import me.programmeris.myresume.api.entity.session.AccessToken;
 import me.programmeris.myresume.api.entity.user.User;
+import me.programmeris.myresume.api.exception.CodedException;
+import me.programmeris.myresume.api.repository.AccessTokenRepository;
 import me.programmeris.myresume.api.repository.UserRepository;
 import me.programmeris.myresume.api.service.UserService;
 import me.programmeris.myresume.api.session.Session;
-import org.hibernate.annotations.DynamicUpdate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
+    @Value("${token.expiration_time}")
+    private Long tokenExpirationTime;
+
     private final UserRepository userRepository;
+    private final AccessTokenRepository accessTokenRepository;
 
     @Override
     public UserDto getUser(String email) {
@@ -60,5 +72,42 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
         user.setUpdateUserId(Session.user.get().getId());
+    }
+
+    @Override
+    @Transactional
+    public String login(LoginForm loginForm) {
+        User user = userRepository.findOneByEmail(loginForm.getId());
+        if (user == null) {
+            throw new CodedException(Code.INCORRECT_USERNAME_OR_PASSWORD);
+        }
+
+        if (!StringUtils.equals(user.getPassword(), loginForm.getPassword().get())) {
+            throw new CodedException(Code.INCORRECT_USERNAME_OR_PASSWORD);
+        }
+
+        AccessToken accessToken = new AccessToken();
+        accessToken.setToken(Session.generateToken());
+        accessToken.setExpiredDt(LocalDateTime.now().plusMinutes(tokenExpirationTime));
+        accessToken.setUser(user);
+
+        accessTokenRepository.save(accessToken);
+
+        return accessToken.getToken();
+    }
+
+    @Override
+    @Transactional
+    public void logout(String token) {
+
+        AccessToken accessToken = accessTokenRepository.findTopByTokenAndExpiredDtGreaterThanEqualOrderByExpiredDtDesc(token, LocalDateTime.now());
+        accessTokenRepository.delete(accessToken);
+    }
+
+    @Override
+    @Transactional
+    public void signUp(SignUpForm signUpForm) {
+
+        userRepository.save(signUpForm.toUser());
     }
 }

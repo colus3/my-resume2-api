@@ -2,14 +2,13 @@ package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.response.ResumeDto;
-import me.programmeris.myresume.api.entity.resume.Resume;
 import me.programmeris.myresume.api.repository.ResumeRepository;
 import me.programmeris.myresume.api.service.ResumeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor

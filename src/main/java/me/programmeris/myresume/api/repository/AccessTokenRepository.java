@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 
 public interface AccessTokenRepository extends JpaRepository<AccessToken, Long> {
 
-    AccessToken findTopByKeyAndExpiredDTGreaterThanEqualOrderByExpiredDTDesc(String key, LocalDateTime now);
+    AccessToken findTopByTokenAndExpiredDtGreaterThanEqualOrderByExpiredDtDesc(String token, LocalDateTime now);
 }

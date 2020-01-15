@@ -2,6 +2,7 @@ package me.programmeris.myresume.api;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import me.programmeris.myresume.api.dto.Password;
 import me.programmeris.myresume.api.entity.content.Content;
 import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
@@ -77,6 +78,7 @@ public class InitData {
         public void doInitValues() {
             /* 사용자 생성 */
             User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
+            user.setPassword(new Password("1234").get());
             userRepository.save(user);
 
             /* 이력서 생성 */
