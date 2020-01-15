@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/contents")
@@ -18,12 +18,14 @@ public class ContentApiController {
 
     private final ContentService contentService;
 
+    @Session
     @GetMapping("{id:.+}")
     public Response<ContentDto> getContent(@PathVariable("id") Long id) {
 
         return Response.create(Code.SUCCESS, contentService.getContent(id));
     }
 
+    @Session
     @GetMapping("/email/{email:.+@.+}")
     public Response<ContentDto> getContentsByEmailWithPaging(@PathVariable("email") String email,
                                                             @PageableDefault Pageable pageable) {

@@ -10,16 +10,15 @@ import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.service.UserService;
 import me.programmeris.myresume.api.session.Session;
 import me.programmeris.myresume.api.tool.CookieUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @Slf4j
-@CrossOrigin
+@CrossOrigin(origins = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/auth")
@@ -33,31 +32,30 @@ public class AuthenticationApiController {
         log.debug("loginForm {}", loginForm);
         String token = userService.login(loginForm);
 
-        Cookie cookie = CookieUtils.builder()
+        response.addCookie(CookieUtils.builder()
                 .setName(Session.ACCESS_TOKEN_COOKIE_NAME)
                 .setValue(URLEncoder.encode(token, "UTF-8"))
                 .setPath("/")
                 .setMaxAge(0)
-                .build();
-
-        response.addCookie(cookie);
+                .build());
 
         return Response.create(Code.SUCCESS);
     }
 
-    public Response<Empty> logout(HttpServletRequest request,
+    @PostMapping("/logout")
+    public Response<Empty> logout(@CookieValue(Session.ACCESS_TOKEN_COOKIE_NAME) String token,
                                   HttpServletResponse response) {
-        String token = CookieUtils.getValue(request.getCookies(), Session.ACCESS_TOKEN_COOKIE_NAME);
-        userService.logout(token);
 
-        Cookie cookie = CookieUtils.builder()
+        if (StringUtils.isNotEmpty(token)) {
+            userService.logout(token);
+        }
+
+        response.addCookie(CookieUtils.builder()
                 .setName(Session.ACCESS_TOKEN_COOKIE_NAME)
-                .setValue("")
+                .setValue(null)
                 .setPath("/")
                 .setMaxAge(0)
-                .build();
-
-        response.addCookie(cookie);
+                .build());
 
         return Response.create(Code.SUCCESS);
     }

@@ -24,7 +24,7 @@ public class SignUpForm {
     public User toUser() {
         User user = new User();
         user.setEmail(email);
-        user.setPhone(phone);
+        user.setPhone(phone.replaceAll("-", ""));
         user.setPassword(password.get());
         user.setUsername(username);
         user.setAddress(address);

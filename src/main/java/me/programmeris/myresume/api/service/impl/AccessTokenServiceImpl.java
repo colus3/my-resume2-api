@@ -25,7 +25,9 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     @Override
     public AccessToken getAccessToken(String token, LocalDateTime now) {
         AccessToken accessToken = accessTokenRepository.findTopByTokenAndExpiredDtGreaterThanEqualOrderByExpiredDtDesc(token, now);
-        accessToken.getUser();
+        if (accessToken != null) {
+            accessToken.getUser();
+        }
         return accessToken;
     }
 

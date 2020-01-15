@@ -5,12 +5,13 @@ import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.dto.response.ResumeDto;
 import me.programmeris.myresume.api.service.ResumeService;
+import me.programmeris.myresume.api.session.annotation.Session;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/resumes")
@@ -18,6 +19,7 @@ public class ResumeApiController {
 
     private final ResumeService resumeService;
 
+    @Session
     @GetMapping("{resume_id:.+}")
     public Response<ResumeDto> getResume(@PathVariable("resume_id") Long resumeId,
                               @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
@@ -32,12 +34,14 @@ public class ResumeApiController {
         return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId, useYn));
     }
 
+    @Session
     @GetMapping("/user-id/{id:[0-9]+}")
     public Response<ResumeDto> getResumeByUserIdWithPaging(@PathVariable("id") Long id,
                                                    @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
         return Response.create(Code.SUCCESS, resumeService.getResumeByUserId(id, pageable));
     }
 
+    @Session
     @GetMapping("/email/{email:.+@.+}")
     public Response<ResumeDto> getResumeByUserEmailWithPaging(@PathVariable("email") String email,
                                                               @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {

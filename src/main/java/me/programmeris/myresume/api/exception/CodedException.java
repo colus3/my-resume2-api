@@ -12,7 +12,7 @@ public class CodedException extends RuntimeException {
         this(Code.UNDEFINED, message);
     }
     public CodedException(Code code) {
-        this(code, null);
+        this(code, code.name());
     };
     public CodedException(Code code, String message) {
         super(message);
