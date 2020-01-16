@@ -37,20 +37,12 @@ public class SessionAspect {
 
         LocalDateTime now = LocalDateTime.now();
 
-        // 쿠키 값으로 세션 조회
+        // 쿠키 값으로 세션 초기화 및 체크
         if (!initSession(request, now) || !checkSession()) {
-            response.addCookie(CookieUtils.builder()
-                                       .setName(Session.ACCESS_TOKEN_COOKIE_NAME)
-                                       .setValue(null)
-                                       .setDomain("localhost")
-                                       .setPath("/")
-                                       .setMaxAge(0)
-                                       .build());
-
             throw new CodedException(Code.INVALID_SESSION);
         }
 
-        // 세션 체크 후 DB에 저장된 세션 정보를 업데이트
+        // DB에 저장된 세션 정보를 업데이트
         updateSession(now);
 
         Object result = joinPoint.proceed();
@@ -76,13 +68,10 @@ public class SessionAspect {
     private boolean initSession(HttpServletRequest request, LocalDateTime now) {
         String token = CookieUtils.getValue(request.getCookies(), Session.ACCESS_TOKEN_COOKIE_NAME);
 
-        if (token == null) {
-            return false;
-        }
+        if (token == null) return false;
+
         AccessToken accessToken = accessTokenService.getAccessToken(token, now);
-        if (accessToken == null) {
-            return false;
-        }
+        if (accessToken == null) return false;
 
         Session.token.set(token);
         Session.user.set(accessToken.getUser());

@@ -3,6 +3,7 @@ package me.programmeris.myresume.api.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.dto.Password;
 import me.programmeris.myresume.api.dto.request.LoginForm;
 import me.programmeris.myresume.api.dto.request.SignUpForm;
 import me.programmeris.myresume.api.dto.response.Empty;
@@ -27,7 +28,8 @@ public class AuthenticationApiController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public Response<Empty> login(HttpServletResponse response, @RequestBody LoginForm loginForm) throws UnsupportedEncodingException {
+    public Response<Empty> login(HttpServletResponse response,
+                                 @RequestBody LoginForm loginForm) throws UnsupportedEncodingException {
 
         log.debug("loginForm {}", loginForm);
         String token = userService.login(loginForm);
@@ -64,6 +66,27 @@ public class AuthenticationApiController {
     public Response<Empty> signUp(@RequestBody SignUpForm signUpForm) {
 
         userService.signUp(signUpForm);
+
+        return Response.create(Code.SUCCESS);
+    }
+
+    @PostMapping("/signUpAndLogin")
+    public Response<Empty> signUpAndLogin(@RequestBody SignUpForm signUpForm,
+                                          HttpServletResponse response) throws UnsupportedEncodingException {
+
+        userService.signUp(signUpForm);
+
+        LoginForm loginForm = new LoginForm();
+        loginForm.setId(signUpForm.getEmail());
+        loginForm.setPassword(signUpForm.getPassword());
+        String token = userService.login(loginForm);
+
+        response.addCookie(CookieUtils.builder()
+                .setName(Session.ACCESS_TOKEN_COOKIE_NAME)
+                .setValue(URLEncoder.encode(token, "UTF-8"))
+                .setPath("/")
+                .setMaxAge(0)
+                .build());
 
         return Response.create(Code.SUCCESS);
     }
