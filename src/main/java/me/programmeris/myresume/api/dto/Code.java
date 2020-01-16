@@ -3,6 +3,7 @@ package me.programmeris.myresume.api.dto;
 public enum Code {
     SUCCESS(1000), FAILURE(2000),
     INVALID_SESSION(3000),
+    COOKIE_CANNOT_BE_CREATED(3001),
     // User
     INCORRECT_USERNAME_OR_PASSWORD(4000),
     NOT_LOGGED_IN(4001),

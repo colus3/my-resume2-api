@@ -29,16 +29,9 @@ public class ExceptionControllerAdvice {
                 request.getLocale());
 
         if (Code.INVALID_SESSION == ce.getCode()) {
-            response.addCookie(CookieUtils
-                    .builder()
-                    .setName(Session.ACCESS_TOKEN_COOKIE_NAME)
-                    .setValue(null)
-                    .setMaxAge(0)
-                    .setPath("/")
-                    .build());
-        } else {
-            log.error(ce.getMessage(), ce);
+            response.addCookie(CookieHelper.removeCookie());
         }
+        log.error("Code : [{}], Message : [{}]", ce.getCode(), ce.getMessage(), ce);
 
         return Response.create(ce.getCode(), ce.getMessage());
     }
