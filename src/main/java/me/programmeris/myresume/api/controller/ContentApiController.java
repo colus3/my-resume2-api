@@ -6,11 +6,12 @@ import me.programmeris.myresume.api.dto.response.ContentDto;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.service.ContentService;
 import me.programmeris.myresume.api.session.annotation.Session;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/contents")
@@ -22,7 +23,8 @@ public class ContentApiController {
     @GetMapping("{id:.+}")
     public Response<ContentDto> getContent(@PathVariable("id") Long id) {
 
-        return Response.create(Code.SUCCESS, contentService.getContent(id));
+        ContentDto content = contentService.getContent(id);
+        return Response.create(Code.SUCCESS, content);
     }
 
     @Session
@@ -30,7 +32,8 @@ public class ContentApiController {
     public Response<ContentDto> getContentsByEmailWithPaging(@PathVariable("email") String email,
                                                             @PageableDefault Pageable pageable) {
 
-        return Response.create(Code.SUCCESS, contentService.getContentsByEmail(email, pageable));
+        Page<ContentDto> contents = contentService.getContentsByEmail(email, pageable);
+        return Response.create(Code.SUCCESS, contents);
     }
 
     @Session

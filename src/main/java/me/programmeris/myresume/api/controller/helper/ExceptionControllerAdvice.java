@@ -5,9 +5,8 @@ import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.response.Empty;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.exception.CodedException;
-import me.programmeris.myresume.api.session.Session;
-import me.programmeris.myresume.api.tool.CookieUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ public class ExceptionControllerAdvice {
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
 
-        log.error("call codedException handler : {} {}",
+        log.error("CodedException handler : {} {}",
                 ce.getCode(),
                 request.getLocale());
 
@@ -34,5 +33,26 @@ public class ExceptionControllerAdvice {
         log.error("Code : [{}], Message : [{}]", ce.getCode(), ce.getMessage(), ce);
 
         return Response.create(ce.getCode(), ce.getMessage());
+    }
+
+    @ExceptionHandler(value = MissingRequestCookieException.class)
+    @ResponseBody
+    public Response<Empty> handleCookieException(MissingRequestCookieException ce,
+                                                 HttpServletRequest request,
+                                                 HttpServletResponse response) {
+
+        log.error("CookieException handler : {} {}", ce.getClass().getName(), ce.getMessage());
+        return Response.create(Code.COOKIE_NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public Response<Empty> handleDefaultException(Exception e,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response) {
+
+        log.error("exception handler : {} {}", e.getClass().getName(), e.getMessage(), e);
+
+        return Response.create(e.getMessage());
     }
 }

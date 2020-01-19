@@ -6,38 +6,44 @@ import me.programmeris.myresume.api.controller.helper.CookieHelper;
 import me.programmeris.myresume.api.dto.Code;
 import me.programmeris.myresume.api.dto.request.LoginForm;
 import me.programmeris.myresume.api.dto.request.SignUpForm;
+import me.programmeris.myresume.api.dto.response.AccessTokenDto;
 import me.programmeris.myresume.api.dto.response.Empty;
 import me.programmeris.myresume.api.dto.response.Response;
+import me.programmeris.myresume.api.service.AccessTokenService;
 import me.programmeris.myresume.api.service.UserService;
 import me.programmeris.myresume.api.session.Session;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 
 @Slf4j
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/auth")
 public class AuthenticationApiController {
 
     private final UserService userService;
+    private final AccessTokenService accessTokenService;
 
-    @PostMapping("/login")
-    public Response<Empty> login(HttpServletResponse response,
+    @PostMapping("login")
+    public Response<AccessTokenDto> login(HttpServletResponse response,
                                  @RequestBody LoginForm loginForm) {
 
         log.debug("loginForm {}", loginForm);
         String token = userService.login(loginForm);
 
+        AccessTokenDto accessTokenDto = accessTokenService.getAccessToken(token, LocalDateTime.now());
+
         response.addCookie(CookieHelper.createCookie(token));
 
-        return Response.create(Code.SUCCESS);
+        return Response.create(Code.SUCCESS, accessTokenDto);
     }
 
-    @PostMapping("/logout")
-    public Response<Empty> logout(@CookieValue(Session.ACCESS_TOKEN_COOKIE_NAME) String token,
+    @PostMapping("logout")
+    public Response<Empty> logout(@CookieValue(Session.COOKIE_NAME) String token,
                                   HttpServletResponse response) {
 
         if (StringUtils.isNotEmpty(token)) {
@@ -49,7 +55,7 @@ public class AuthenticationApiController {
         return Response.create(Code.SUCCESS);
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("sign-up")
     public Response<Empty> signUp(@RequestBody SignUpForm signUpForm) {
 
         userService.signUp(signUpForm);
@@ -57,7 +63,7 @@ public class AuthenticationApiController {
         return Response.create(Code.SUCCESS);
     }
 
-    @PostMapping("/signUpAndLogin")
+    @PostMapping("sign-up-and-login")
     public Response<Empty> signUpAndLogin(@RequestBody SignUpForm signUpForm,
                                           HttpServletResponse response) {
 
@@ -71,5 +77,14 @@ public class AuthenticationApiController {
         response.addCookie(CookieHelper.createCookie(token));
 
         return Response.create(Code.SUCCESS);
+    }
+
+    @me.programmeris.myresume.api.session.annotation.Session
+    @GetMapping("me")
+    public Response<AccessTokenDto> getSessionInfo(@CookieValue(Session.COOKIE_NAME) String token) {
+
+        AccessTokenDto accessTokenDto = accessTokenService.getAccessToken(token, LocalDateTime.now());
+
+        return Response.create(Code.SUCCESS, accessTokenDto);
     }
 }

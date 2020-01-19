@@ -6,12 +6,13 @@ import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.dto.response.ResumeDto;
 import me.programmeris.myresume.api.service.ResumeService;
 import me.programmeris.myresume.api.session.annotation.Session;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/resumes")
@@ -24,27 +25,33 @@ public class ResumeApiController {
     public Response<ResumeDto> getResume(@PathVariable("resume_id") Long resumeId,
                               @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
-        return Response.create(Code.SUCCESS, resumeService.getResume(resumeId, useYn));
+        ResumeDto resume = resumeService.getResume(resumeId, useYn);
+        return Response.create(Code.SUCCESS, resume);
     }
 
     @GetMapping("/id/{direct_access_id:.+}")
     public Response<ResumeDto> getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
                                               @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
-        return Response.create(Code.SUCCESS, resumeService.getResumeByDirectAccessId(directAccessId, useYn));
+        ResumeDto resume = resumeService.getResumeByDirectAccessId(directAccessId, useYn);
+        return Response.create(Code.SUCCESS, resume);
     }
 
     @Session
     @GetMapping("/user-id/{id:[0-9]+}")
-    public Response<ResumeDto> getResumeByUserIdWithPaging(@PathVariable("id") Long id,
+    public Response<ResumeDto> getResumesByUserIdWithPaging(@PathVariable("id") Long id,
                                                    @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return Response.create(Code.SUCCESS, resumeService.getResumeByUserId(id, pageable));
+
+        Page<ResumeDto> resumes = resumeService.getResumeByUserId(id, pageable);
+        return Response.create(Code.SUCCESS, resumes);
     }
 
     @Session
     @GetMapping("/email/{email:.+@.+}")
-    public Response<ResumeDto> getResumeByUserEmailWithPaging(@PathVariable("email") String email,
+    public Response<ResumeDto> getResumesByUserEmailWithPaging(@PathVariable("email") String email,
                                                               @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return Response.create(Code.SUCCESS, resumeService.getResumeByUserEmail(email, pageable));
+
+        Page<ResumeDto> resumes = resumeService.getResumeByUserEmail(email, pageable);
+        return Response.create(Code.SUCCESS, resumes);
     }
 }

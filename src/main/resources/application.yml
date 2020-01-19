@@ -26,3 +26,8 @@ server:
 
 token:
   expiration_time: 30
+
+cookie:
+  domain: 'programmeris.me'
+  http_only: false
+  secure: false

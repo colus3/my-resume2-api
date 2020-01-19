@@ -3,8 +3,10 @@ package me.programmeris.myresume.api.session.aop;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.programmeris.myresume.api.dto.Code;
-import me.programmeris.myresume.api.entity.session.AccessToken;
+import me.programmeris.myresume.api.dto.response.AccessTokenDto;
+import me.programmeris.myresume.api.entity.user.User;
 import me.programmeris.myresume.api.exception.CodedException;
+import me.programmeris.myresume.api.repository.UserRepository;
 import me.programmeris.myresume.api.service.AccessTokenService;
 import me.programmeris.myresume.api.session.Session;
 import me.programmeris.myresume.api.tool.CookieUtils;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 public class SessionAspect {
 
     private final AccessTokenService accessTokenService;
+    private final UserRepository userRepository;
 
     @Around("execution(* me.programmeris..controller.*.*(..)) && @annotation(me.programmeris.myresume.api.session.annotation.Session)")
     private Object process(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -66,15 +69,17 @@ public class SessionAspect {
     }
 
     private boolean initSession(HttpServletRequest request, LocalDateTime now) {
-        String token = CookieUtils.getValue(request.getCookies(), Session.ACCESS_TOKEN_COOKIE_NAME);
+        String token = CookieUtils.getValue(request.getCookies(), Session.COOKIE_NAME);
 
         if (token == null) return false;
 
-        AccessToken accessToken = accessTokenService.getAccessToken(token, now);
+        AccessTokenDto accessToken = accessTokenService.getAccessToken(token, now);
         if (accessToken == null) return false;
 
+        User user = userRepository.findOneByEmail(accessToken.getUser().getEmail());
+
         Session.token.set(token);
-        Session.user.set(accessToken.getUser());
+        Session.user.set(user);
 
         return true;
     }

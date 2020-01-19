@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.dto.response.AccessTokenDto;
 import me.programmeris.myresume.api.entity.session.AccessToken;
 import me.programmeris.myresume.api.exception.CodedException;
 import me.programmeris.myresume.api.repository.AccessTokenRepository;
@@ -23,12 +24,13 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     private final AccessTokenRepository accessTokenRepository;
 
     @Override
-    public AccessToken getAccessToken(String token, LocalDateTime now) {
+    public AccessTokenDto getAccessToken(String token, LocalDateTime now) {
         AccessToken accessToken = accessTokenRepository.findTopByTokenAndExpiredDtGreaterThanEqualOrderByExpiredDtDesc(token, now);
+        AccessTokenDto accessTokenDto = null;
         if (accessToken != null) {
-            accessToken.getUser();
+            accessTokenDto = AccessTokenDto.of(accessToken);
         }
-        return accessToken;
+        return accessTokenDto;
     }
 
     @Override
