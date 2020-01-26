@@ -11,8 +11,8 @@ public interface UserService {
     UserDto getUser(String email);
     UserDto getUser(Long id);
     Page<UserDto> getUsers(String email, Pageable pageable);
-    void addUser(UserDto userDto);
-    void editUser(String email, UserDto userDto);
+    void addUser(SignUpForm signUpForm);
+    void editUser(String email, SignUpForm signUpForms);
 
     String login(LoginForm loginForm);
 

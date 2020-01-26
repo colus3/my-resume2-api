@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +23,9 @@ public class ResumeApiController {
     private final ResumeService resumeService;
 
     @Session
-    @GetMapping("{resume_id:.+}")
+    @GetMapping("{resume_id:[0-9]+}")
     public Response<ResumeDto> getResume(@PathVariable("resume_id") Long resumeId,
-                              @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
+                                         @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
         ResumeDto resume = resumeService.getResume(resumeId, useYn);
         return Response.create(Code.SUCCESS, resume);
@@ -31,7 +33,7 @@ public class ResumeApiController {
 
     @GetMapping("/id/{direct_access_id:.+}")
     public Response<ResumeDto> getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
-                                              @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
+                                                         @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
 
         ResumeDto resume = resumeService.getResumeByDirectAccessId(directAccessId, useYn);
         return Response.create(Code.SUCCESS, resume);

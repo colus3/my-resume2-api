@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addUser(UserDto userDto) {
-        User newUser = userDto.to(new User());
+    public void addUser(SignUpForm signUpForm) {
+        User newUser = signUpForm.toUser();
         Long createUserId = Session.isLoggedIn.get() ? Session.user.get().getId() : 0;
         newUser.setCreateUserId(createUserId);
         newUser.setUpdateUserId(createUserId);
@@ -65,12 +65,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void editUser(String email, UserDto userDto) {
+    public void editUser(String email, SignUpForm signUpForm) {
         User user = userRepository.findOneByEmail(email);
-        user.setUsername(userDto.getUsername());
-        user.setAddress(userDto.getAddress());
-        user.setEmail(userDto.getEmail());
-        user.setPhone(userDto.getPhone());
+        user.setUsername(signUpForm.getUsername());
+        user.setAddress(signUpForm.getAddress());
+        user.setEmail(signUpForm.getEmail());
+        user.setPhone(signUpForm.getPhone());
         user.setUpdateUserId(Session.user.get().getId());
     }
 

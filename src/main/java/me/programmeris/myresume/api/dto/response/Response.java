@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.exception.CodedException;
 import org.springframework.data.domain.Page;
 
 @Data
@@ -44,12 +45,14 @@ public class Response<T extends ResponseData> {
     private Response(Code code, T data) {
         this.code = code.getCode();
         this.message = code.name();
+        if (data == null) throw new CodedException(Code.NO_DATA);
         this.data = data;
     }
 
     private Response(Code code, Page<T> data) {
         this.code = code.getCode();
         this.message = code.name();
+        if (data == null || data.getNumberOfElements() <= 0) throw new CodedException(Code.NO_DATA);
         this.pagingData = data;
     }
 

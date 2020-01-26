@@ -2,6 +2,7 @@ package me.programmeris.myresume.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Code;
+import me.programmeris.myresume.api.dto.request.SignUpForm;
 import me.programmeris.myresume.api.dto.response.Empty;
 import me.programmeris.myresume.api.dto.response.Response;
 import me.programmeris.myresume.api.dto.response.UserDto;
@@ -38,18 +39,18 @@ public class UserApiController {
 
     @Session
     @PostMapping("")
-    public Response<Empty> addUser(UserDto userDto) {
+    public Response<Empty> addUser(SignUpForm signUpForm) {
 
-        userService.addUser(userDto);
+        userService.addUser(signUpForm);
         return Response.create(Code.SUCCESS);
     }
 
     @Session
     @PutMapping("/email/{email:.+}")
     public Response<Empty> editUser(@PathVariable("email") String email,
-                                    @RequestBody UserDto userDto) {
+                                    @RequestBody SignUpForm signUpForm) {
 
-        userService.editUser(email, userDto);
+        userService.editUser(email, signUpForm);
         return Response.create(Code.SUCCESS);
     }
 

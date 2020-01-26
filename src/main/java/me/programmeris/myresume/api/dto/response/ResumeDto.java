@@ -23,7 +23,7 @@ public class ResumeDto implements ResponseData {
     @JsonProperty(value = "user")
     private UserDto userDto;
 
-    @JsonProperty(value = "resume_contents")
+    @JsonProperty(value = "resumeContents")
     private List<ResumeContentDto> resumeContentDtos;
 
     public ResumeDto(String id, ResumeType type, String name, String useYn, String resumeUrl, LocalDateTime createDt, UserDto userDto, List<ResumeContentDto> resumeContentDtos) {

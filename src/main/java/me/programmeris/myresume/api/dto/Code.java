@@ -1,7 +1,9 @@
 package me.programmeris.myresume.api.dto;
 
 public enum Code {
-    SUCCESS(1000), FAILURE(2000),
+    SUCCESS(1000),
+    NO_DATA(1001),
+    FAILURE(2000),
     INVALID_SESSION(3000),
     COOKIE_CANNOT_BE_CREATED(3001),
     COOKIE_NOT_FOUND(3002),

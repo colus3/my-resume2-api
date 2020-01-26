@@ -3,6 +3,7 @@ package me.programmeris.myresume.api;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import me.programmeris.myresume.api.dto.Password;
+import me.programmeris.myresume.api.entity.base.Address;
 import me.programmeris.myresume.api.entity.content.Content;
 import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,6 +81,8 @@ public class InitData {
             /* 사용자 생성 */
             User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
             user.setPassword(new Password("1234").get());
+            user.setBirthDate(LocalDate.of(1982, 1, 26));
+            user.setAddress(new Address("", "경기도 고양시", "일산서구 주엽동"));
             userRepository.save(user);
 
             /* 이력서 생성 */
@@ -216,6 +220,7 @@ public class InitData {
             resume.setUseYn(useYn);
             resume.setCreateUserId(user.getId());
             resume.setUpdateUserId(user.getId());
+            resume.setDirectAccessId("69586509-155a-483f-a9b0-71dfa9dcce28");
             return resume;
         }
 
