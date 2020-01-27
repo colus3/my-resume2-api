@@ -79,7 +79,7 @@ public class InitData {
 
         public void doInitValues() {
             /* 사용자 생성 */
-            User user = createUser("Donghwan Lee", "010-2041-9909", "colus4@gmail.com");
+            User user = createUser("Donghwan Lee", "+82-10-2041-9909", "colus4@gmail.com");
             user.setPassword(new Password("1234").get());
             user.setBirthDate(LocalDate.of(1982, 1, 26));
             user.setAddress(new Address("", "경기도 고양시", "일산서구 주엽동"));

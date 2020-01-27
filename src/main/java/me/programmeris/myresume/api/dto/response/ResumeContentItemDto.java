@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -16,7 +17,9 @@ public class ResumeContentItemDto implements ResponseData {
     private String contentType;
     private String title;
     private String contents;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime startDt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime endDt;
 
     private String tagName;
