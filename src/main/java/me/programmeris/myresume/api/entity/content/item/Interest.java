@@ -1,11 +1,14 @@
 package me.programmeris.myresume.api.entity.content.item;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import me.programmeris.myresume.api.entity.content.Tag;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static me.programmeris.myresume.api.entity.content.ContentType.INTEREST;
 
@@ -15,7 +18,13 @@ import static me.programmeris.myresume.api.entity.content.ContentType.INTEREST;
 @ToString
 public class Interest extends ContentItem {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "tag_id")
+//    private Tag tag;
+    @ManyToMany
+    @JoinTable(name = "item_tag",
+            joinColumns = @JoinColumn(name="item_id"),
+            inverseJoinColumns = @JoinColumn(name="tag_id")
+    )
+    private List<Tag> tags = Lists.newArrayList();
 }

@@ -1,11 +1,17 @@
 package me.programmeris.myresume.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import me.programmeris.myresume.api.entity.content.ContentType;
+import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -17,16 +23,16 @@ public class ContentItemDto implements ResponseData {
     private LocalDateTime startDt;
     private LocalDateTime endDt;
 
-    private String tagName;
+    private List<String> tagNames;
     private Double point;
 
-    public ContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, String tagName, Double point) {
+    public ContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point) {
         this.contentType = contentType;
         this.title = title;
         this.contents = contents;
         this.startDt = startDt;
         this.endDt = endDt;
-        this.tagName = tagName;
+        this.tagNames = tagNames;
         this.point = point;
     }
 
@@ -37,36 +43,49 @@ public class ContentItemDto implements ResponseData {
         String contents = contentItem.getContents();
         LocalDateTime startDt = null;
         LocalDateTime endDt = null;
-        String tagName = null;
+        List<String> tagNames = Lists.newArrayList();
         Double point = null;
         String contentType = contentItem.getContent().getType();
         switch (contentType) {
             case ContentType.PROFILE:
-                title = ((Profile) contentItem).getTitle();
+                Profile profile = ((Profile) contentItem);
+                title = profile.getTitle();
                 break;
 
             case ContentType.EDUCATION:
-                startDt = ((Education) contentItem).getStartDt();
-                endDt = ((Education) contentItem).getEndDt();
+                Education education = ((Education) contentItem);
+                startDt = education.getStartDt();
+                endDt = education.getEndDt();
+                break;
+
+            case ContentType.CERTIFICATION:
+                Certification certification = ((Certification) contentItem);
+                startDt = certification.getStartDt();
                 break;
 
             case ContentType.INTEREST:
-                tagName = ((Interest) contentItem).getTag().getName();
+                Interest interest = ((Interest) contentItem);
+                tagNames = interest.getTags().stream().map(Tag::getName).collect(toList());
                 break;
 
             case ContentType.SKILL:
-                tagName = ((Skill) contentItem).getTag().getName();
-                point = ((Skill) contentItem).getPoint();
+                Skill skill = ((Skill) contentItem);
+                tagNames = skill.getTags().stream().map(Tag::getName).collect(toList());
+                point = skill.getPoint();
                 break;
 
             case ContentType.WORK_EXPERIENCE:
-                startDt = ((WorkExperience) contentItem).getStartDt();
-                endDt = ((WorkExperience) contentItem).getEndDt();
+                WorkExperience workExperience = ((WorkExperience) contentItem);
+                title = workExperience.getTitle();
+                startDt = workExperience.getStartDt();
+                endDt = workExperience.getEndDt();
+                tagNames = workExperience.getTags().stream().map(Tag::getName).collect(toList());
                 break;
 
             case ContentType.PROJECT_EXPERIENCE:
-                startDt = ((ProjectExperience) contentItem).getStartDt();
-                endDt = ((ProjectExperience) contentItem).getEndDt();
+                ProjectExperience projectExperience = ((ProjectExperience) contentItem);
+                startDt = projectExperience.getStartDt();
+                endDt = projectExperience.getEndDt();
                 break;
 
             default: break;
@@ -76,7 +95,7 @@ public class ContentItemDto implements ResponseData {
                 contents,
                 startDt,
                 endDt,
-                tagName,
+                tagNames,
                 point);
 
     }

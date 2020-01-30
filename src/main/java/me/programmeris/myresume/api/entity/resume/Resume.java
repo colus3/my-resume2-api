@@ -22,13 +22,14 @@ public class Resume extends Deletable {
     @Column(name = "resume_id")
     private Long id;
 
-    private ResumeType resumeType;
-    private String resumeName;
+    private ResumeType type;
+    private String name;
+    private String shortIntro = "";
     private String defaultYn = "N";
     private String useYn = "N";
     private String directAccessId = UUID.randomUUID().toString();
     private String resumeShortUrl;
-    @Column(name = "resume_ui_type")
+    @Column(name = "ui_type")
     @Enumerated(EnumType.STRING)
     private ResumeUIType resumeUIType = ResumeUIType.bootstrap;
 
