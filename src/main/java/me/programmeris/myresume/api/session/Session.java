@@ -1,9 +1,7 @@
 package me.programmeris.myresume.api.session;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import me.programmeris.myresume.api.dto.response.UserDto;
 import me.programmeris.myresume.api.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

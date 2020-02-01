@@ -9,5 +9,4 @@ class MyResumeApiApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
