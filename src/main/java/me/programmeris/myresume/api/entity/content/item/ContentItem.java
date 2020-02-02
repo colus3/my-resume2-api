@@ -25,5 +25,6 @@ public abstract class ContentItem extends Updatable {
     @JoinColumn(name = "content_id")
     private Content content;
 
+    @Column(columnDefinition = "TEXT")
     private String contents;
 }
