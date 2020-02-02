@@ -36,3 +36,7 @@ services:
         condition: service_healthy
     links:
       - db
+networks:
+  default:
+    name: my-resume2
+    driver: bridge
