@@ -25,4 +25,6 @@ public class ResumeContentItem extends Creatable {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "content_item_id")
     private ContentItem contentItem;
+
+    private Long displayOrder;
 }

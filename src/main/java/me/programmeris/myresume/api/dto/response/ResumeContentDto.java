@@ -40,8 +40,12 @@ public class ResumeContentDto implements ResponseData {
                 resumeContent.getPosition(),
                 resumeContent.getResumeContentItems()
                         .stream()
-                        .map(ResumeContentItem::getContentItem)
-                        .map(e -> e instanceof HibernateProxy ? (ContentItem) Hibernate.unproxy(e) : e)
+                        .peek(e -> {
+                            ContentItem contentItem = e.getContentItem();
+                            if (contentItem instanceof HibernateProxy) {
+                                e.setContentItem((ContentItem) Hibernate.unproxy(contentItem));
+                            }
+                        })
                         .map(ResumeContentItemDto::of)
                         .collect(toList())
         );

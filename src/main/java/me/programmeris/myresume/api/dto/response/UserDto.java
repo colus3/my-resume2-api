@@ -17,6 +17,7 @@ public class UserDto implements ResponseData {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private String address;
+    private String github;
     private LocalDateTime createDt;
 
     public UserDto(String username,
@@ -26,6 +27,7 @@ public class UserDto implements ResponseData {
                    String address1,
                    String address2,
                    LocalDate birthDate,
+                   String github,
                    LocalDateTime createDt) {
         this.username = username;
         this.phone = phone;
@@ -34,6 +36,7 @@ public class UserDto implements ResponseData {
                                    address1,
                                    address2).toFullAddress();
         this.birthDate = birthDate;
+        this.github = github;
         this.createDt = createDt;
     }
 
@@ -47,6 +50,7 @@ public class UserDto implements ResponseData {
                            user.getAddress() != null ? user.getAddress().getAddress1() : "",
                            user.getAddress() != null ? user.getAddress().getAddress2() : "",
                            user.getBirthDate(),
+                           user.getGithub(),
                            user.getCreateDt());
     }
 

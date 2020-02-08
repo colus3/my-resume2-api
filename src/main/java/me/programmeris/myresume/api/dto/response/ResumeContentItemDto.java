@@ -4,14 +4,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import me.programmeris.myresume.api.entity.content.ContentType;
 import me.programmeris.myresume.api.entity.content.item.ContentItem;
+import me.programmeris.myresume.api.entity.resume.ResumeContentItem;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
+@Slf4j
 public class ResumeContentItemDto implements ResponseData {
 
     @JsonIgnore
@@ -26,7 +31,9 @@ public class ResumeContentItemDto implements ResponseData {
     private List<String> tagNames;
     private Double point;
 
-    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point) {
+    private Long displayOrder;
+
+    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point, Long displayOrder) {
         this.contentType = contentType;
         this.title = title;
         this.contents = contents;
@@ -34,11 +41,17 @@ public class ResumeContentItemDto implements ResponseData {
         this.endDt = endDt;
         this.tagNames = tagNames;
         this.point = point;
+        this.displayOrder = displayOrder;
     }
 
-    public static <T extends ContentItem> ResumeContentItemDto of(T contentItem) {
+    public static <T extends ResumeContentItem> ResumeContentItemDto of(T resumeContentItem) {
 
-        ContentItemDto contentItemDto = ContentItemDto.of(contentItem);
+        ContentItemDto contentItemDto = ContentItemDto.of(resumeContentItem.getContentItem());
+
+        if (contentItemDto.getContentType().equals(ContentType.SKILL)) {
+            log.info("skill {}", contentItemDto);
+        }
+
 
         return new ResumeContentItemDto(contentItemDto.getContentType(),
                 contentItemDto.getTitle(),
@@ -46,6 +59,7 @@ public class ResumeContentItemDto implements ResponseData {
                 contentItemDto.getStartDt(),
                 contentItemDto.getEndDt(),
                 contentItemDto.getTagNames(),
-                contentItemDto.getPoint());
+                contentItemDto.getPoint(),
+                resumeContentItem.getDisplayOrder());
     }
 }

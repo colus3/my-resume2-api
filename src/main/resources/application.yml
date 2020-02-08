@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       use-new-id-generator-mappings: false # MySQL auto_increment 사용
     properties:
       hibernate:

@@ -3,6 +3,7 @@ package me.programmeris.myresume.api.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import lombok.ToString;
 import me.programmeris.myresume.api.entity.content.ContentType;
 import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.*;
@@ -15,6 +16,7 @@ import static java.util.stream.Collectors.*;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class ContentItemDto implements ResponseData {
 
     private String contentType;

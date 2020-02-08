@@ -30,6 +30,7 @@ public class User extends Updatable {
     private Address address;
     private LocalDate birthDate;
     private String image;
+    private String github;
 
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes = new ArrayList<>();

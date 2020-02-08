@@ -33,6 +33,7 @@ public class ResumeContent extends Creatable {
     private Position position;
 
     @OneToMany(mappedBy = "resumeContent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC")
     private List<ResumeContentItem> resumeContentItems = Lists.newArrayList();
 
     public void addResumeContentItems(ResumeContentItem... items) {

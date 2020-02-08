@@ -28,8 +28,8 @@ public class InitData {
 
     @PostConstruct
     public void init() {
-        initService.doInitTags();
-        initService.doInitValues();
+//        initService.doInitTags();
+//        initService.doInitValues();
     }
 
     @Component

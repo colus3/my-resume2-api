@@ -3,6 +3,7 @@ package me.programmeris.myresume.api.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import me.programmeris.myresume.api.entity.resume.Resume;
+import me.programmeris.myresume.api.entity.resume.ResumeContentItem;
 import me.programmeris.myresume.api.entity.resume.ResumeType;
 
 import java.time.LocalDateTime;
