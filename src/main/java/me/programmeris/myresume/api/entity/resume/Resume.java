@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.entity.resume;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -38,7 +39,7 @@ public class Resume extends Deletable {
     private User user;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ResumeContent> resumeContents = new ArrayList<>();
+    private List<ResumeContent> resumeContents = Lists.newArrayList();
 
     public void addResumeContents(ResumeContent resumeContent, ResumeContentItem... items) {
         resumeContent.setResume(this);

@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.entity.user;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import me.programmeris.myresume.api.entity.base.Address;
@@ -33,5 +34,5 @@ public class User extends Updatable {
     private String github;
 
     @OneToMany(mappedBy = "user")
-    private List<Resume> resumes = new ArrayList<>();
+    private List<Resume> resumes = Lists.newArrayList();
 }

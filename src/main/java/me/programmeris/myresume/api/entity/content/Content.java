@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.entity.content;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,7 +33,7 @@ public class Content extends Updatable {
     private User user;
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContentItem> contentItems = new ArrayList<>();
+    private List<ContentItem> contentItems = Lists.newArrayList();
 
     public void addContentItem(ContentItem... items) {
         if (items == null) return;
