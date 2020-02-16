@@ -18,7 +18,7 @@ services:
       - .db/data:/var/lib/mysql:rw
       - .db/config:/etc/mysql:ro
     restart: always
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1']
+    command: ['--max_connect_errors=10000', '--max_connections=300', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1']
 
   api:
     container_name: my-resume2-api

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
 import static me.programmeris.myresume.api.entity.content.ContentType.WORK_EXPERIENCE;
 
 @Entity
@@ -20,10 +21,6 @@ public class WorkExperience extends ContentItem {
     private String title;
     private LocalDateTime startDt;
     private LocalDateTime endDt;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "tag_id")
-//    private Tag tag;
 
     @ManyToMany
     @JoinTable(name = "item_tag",

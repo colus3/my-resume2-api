@@ -7,6 +7,8 @@ import lombok.ToString;
 import me.programmeris.myresume.api.entity.content.ContentType;
 import me.programmeris.myresume.api.entity.content.Tag;
 import me.programmeris.myresume.api.entity.content.item.*;
+import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +29,9 @@ public class ContentItemDto implements ResponseData {
 
     private List<String> tagNames;
     private Double point;
+    private List<ContentItemDto> childContentItemDtos;
 
-    public ContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point) {
+    public ContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point, List<ContentItemDto> childContentItemDtos) {
         this.contentType = contentType;
         this.title = title;
         this.contents = contents;
@@ -36,6 +39,7 @@ public class ContentItemDto implements ResponseData {
         this.endDt = endDt;
         this.tagNames = tagNames;
         this.point = point;
+        this.childContentItemDtos = childContentItemDtos;
     }
 
     public static <T extends ContentItem> ContentItemDto of(T contentItem) {
@@ -47,6 +51,7 @@ public class ContentItemDto implements ResponseData {
         LocalDateTime endDt = null;
         List<String> tagNames = Lists.newArrayList();
         Double point = null;
+        List<ContentItemDto> childContentItemDtos = Lists.newArrayList();
         String contentType = contentItem.getContent().getType();
         switch (contentType) {
             case ContentType.PROFILE:
@@ -82,6 +87,16 @@ public class ContentItemDto implements ResponseData {
                 startDt = workExperience.getStartDt();
                 endDt = workExperience.getEndDt();
                 tagNames = workExperience.getTags().stream().map(Tag::getName).collect(toList());
+                List<ContentItem> childContentItems = workExperience.getChildContentItems();
+                childContentItemDtos = childContentItems.stream()
+                        .map(e -> {
+                            ContentItem ci = e;
+                            if (e instanceof HibernateProxy) {
+                                ci = (ContentItem) Hibernate.unproxy(e);
+                            }
+                            return ContentItemDto.of(ci);
+                        })
+                        .collect(toList());
                 break;
 
             case ContentType.PROJECT_EXPERIENCE:
@@ -98,7 +113,8 @@ public class ContentItemDto implements ResponseData {
                 startDt,
                 endDt,
                 tagNames,
-                point);
+                point,
+                childContentItemDtos);
 
     }
 }

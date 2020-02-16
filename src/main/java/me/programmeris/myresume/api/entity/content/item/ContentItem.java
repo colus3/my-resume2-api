@@ -1,5 +1,6 @@
 package me.programmeris.myresume.api.entity.content.item;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +9,9 @@ import me.programmeris.myresume.api.entity.content.Content;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -27,4 +30,11 @@ public abstract class ContentItem extends Updatable {
 
     @Column(columnDefinition = "TEXT")
     private String contents;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id")
+    private ContentItem parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<ContentItem> childContentItems = Lists.newArrayList();
 }

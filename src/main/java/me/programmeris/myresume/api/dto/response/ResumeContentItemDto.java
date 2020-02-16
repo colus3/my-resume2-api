@@ -31,9 +31,11 @@ public class ResumeContentItemDto implements ResponseData {
     private List<String> tagNames;
     private Double point;
 
+    private List<ContentItemDto> childContentItemDtos;
+
     private Long displayOrder;
 
-    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point, Long displayOrder) {
+    public ResumeContentItemDto(String contentType, String title, String contents, LocalDateTime startDt, LocalDateTime endDt, List<String> tagNames, Double point, List<ContentItemDto> childContentItemDtos, Long displayOrder) {
         this.contentType = contentType;
         this.title = title;
         this.contents = contents;
@@ -41,6 +43,7 @@ public class ResumeContentItemDto implements ResponseData {
         this.endDt = endDt;
         this.tagNames = tagNames;
         this.point = point;
+        this.childContentItemDtos = childContentItemDtos;
         this.displayOrder = displayOrder;
     }
 
@@ -60,6 +63,7 @@ public class ResumeContentItemDto implements ResponseData {
                 contentItemDto.getEndDt(),
                 contentItemDto.getTagNames(),
                 contentItemDto.getPoint(),
+                contentItemDto.getChildContentItemDtos(),
                 resumeContentItem.getDisplayOrder());
     }
 }
