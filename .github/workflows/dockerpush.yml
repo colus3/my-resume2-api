@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: my-resume2-api
+  IMAGE_NAME: colus3/my-resume2-api
 
 jobs:
 
