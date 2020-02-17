@@ -14,6 +14,5 @@ import static me.programmeris.myresume.api.entity.content.ContentType.EDUCATION;
 @Getter @Setter
 public class Education extends ContentItem {
 
-    private LocalDateTime startDt;
     private LocalDateTime endDt;
 }

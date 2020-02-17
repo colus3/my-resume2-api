@@ -19,7 +19,6 @@ import static me.programmeris.myresume.api.entity.content.ContentType.WORK_EXPER
 public class WorkExperience extends ContentItem {
 
     private String title;
-    private LocalDateTime startDt;
     private LocalDateTime endDt;
 
     @ManyToMany
