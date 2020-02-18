@@ -55,7 +55,6 @@ public class ResumeContentItemDto implements ResponseData {
             log.info("skill {}", contentItemDto);
         }
 
-
         return new ResumeContentItemDto(contentItemDto.getContentType(),
                 contentItemDto.getTitle(),
                 contentItemDto.getContents(),
