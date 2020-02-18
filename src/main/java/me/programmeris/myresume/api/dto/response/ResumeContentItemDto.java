@@ -3,6 +3,7 @@ package me.programmeris.myresume.api.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class ResumeContentItemDto implements ResponseData {
     private List<String> tagNames;
     private Double point;
 
+    @JsonProperty(value = "childItems")
     private List<ContentItemDto> childContentItemDtos;
 
     private Long displayOrder;

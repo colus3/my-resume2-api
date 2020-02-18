@@ -101,8 +101,10 @@ public class ContentItemDto implements ResponseData {
 
             case ContentType.PROJECT_EXPERIENCE:
                 ProjectExperience projectExperience = ((ProjectExperience) contentItem);
+                title = projectExperience.getTitle();
                 startDt = projectExperience.getStartDt();
                 endDt = projectExperience.getEndDt();
+                tagNames = projectExperience.getTags().stream().map(Tag::getName).collect(toList());
                 break;
 
             default: break;

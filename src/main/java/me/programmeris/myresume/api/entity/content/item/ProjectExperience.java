@@ -17,7 +17,7 @@ import static me.programmeris.myresume.api.entity.content.ContentType.PROJECT_EX
 @Getter @Setter
 public class ProjectExperience extends ContentItem {
 
-    private LocalDateTime startDt;
+    private String title;
     private LocalDateTime endDt;
 
     @ManyToMany

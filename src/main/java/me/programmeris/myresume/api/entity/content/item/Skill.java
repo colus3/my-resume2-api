@@ -16,9 +16,6 @@ import static me.programmeris.myresume.api.entity.content.ContentType.SKILL;
 @Getter @Setter
 public class Skill extends ContentItem {
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "tag_id")
-//    private Tag tag;
     @ManyToMany
     @JoinTable(name = "item_tag",
             joinColumns = @JoinColumn(name="item_id"),

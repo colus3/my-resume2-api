@@ -14,5 +14,4 @@ import static me.programmeris.myresume.api.entity.content.ContentType.CERTIFICAT
 @DiscriminatorValue(value = CERTIFICATION)
 @Getter @Setter
 public class Certification extends ContentItem {
-    private LocalDateTime startDt;
 }

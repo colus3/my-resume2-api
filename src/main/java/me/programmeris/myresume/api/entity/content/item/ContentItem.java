@@ -8,7 +8,7 @@ import me.programmeris.myresume.api.entity.base.Updatable;
 import me.programmeris.myresume.api.entity.content.Content;
 
 import javax.persistence.*;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -31,10 +31,13 @@ public abstract class ContentItem extends Updatable {
     @Column(columnDefinition = "TEXT")
     private String contents;
 
+    private LocalDateTime startDt;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private ContentItem parent;
 
     @OneToMany(mappedBy = "parent")
+    @OrderBy("startDt desc")
     private List<ContentItem> childContentItems = Lists.newArrayList();
 }
