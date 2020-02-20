@@ -6,7 +6,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env
     ports:
       - 8080:8080
+    external_links:
+      - my-resume2-db:db
     environment:
       - TZ=Asia/Seoul
+networks:
+  default:
+    external:
+      name: my-resume2
