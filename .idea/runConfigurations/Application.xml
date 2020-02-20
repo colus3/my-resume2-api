@@ -3,18 +3,12 @@
     <module name="my-resume2-api.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="me.programmeris.myresume.api.Application" />
     <option name="ALTERNATIVE_JRE_PATH" />
-    <additionalParameters>
-      <param>
-        <option name="enabled" value="true" />
-        <option name="name" value="spring.profiles.active" />
-        <option name="value" value="local" />
-      </param>
-      <param>
-        <option name="enabled" value="true" />
-        <option name="name" value="server.port" />
-        <option name="value" value="8090" />
-      </param>
-    </additionalParameters>
+    <envs>
+      <env name="MY_RESUME2_DB_URL" value="localhost:3306/my_resume_v2" />
+      <env name="MY_RESUME2_DB_ID" value="root" />
+      <env name="MY_RESUME2_DB_PW" value="qweiop" />
+      <env name="SPRING_PROFILES_ACTIVE" value="dev" />
+    </envs>
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
