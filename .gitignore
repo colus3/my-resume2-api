@@ -34,3 +34,5 @@ out/
 ### Docker ###
 .db
 !.idea
+
+.env
