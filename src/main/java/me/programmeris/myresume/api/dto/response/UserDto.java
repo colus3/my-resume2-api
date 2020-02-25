@@ -14,6 +14,7 @@ public class UserDto implements ResponseData {
     private String username;
     private String phone;
     private String email;
+    private String image;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private String address;
@@ -23,15 +24,17 @@ public class UserDto implements ResponseData {
     public UserDto(String username,
                    String phone,
                    String email,
+                   String image,
+                   LocalDate birthDate,
                    String zipCode,
                    String address1,
                    String address2,
-                   LocalDate birthDate,
                    String github,
                    LocalDateTime createDt) {
         this.username = username;
         this.phone = phone;
         this.email = email;
+        this.image = image;
         this.address = new Address(zipCode,
                                    address1,
                                    address2).toFullAddress();
@@ -44,14 +47,15 @@ public class UserDto implements ResponseData {
         if (user == null) return null;
 
         return new UserDto(user.getUsername(),
-                           user.getPhone(),
-                           user.getEmail(),
-                           user.getAddress() != null ? user.getAddress().getZipCode() : "",
-                           user.getAddress() != null ? user.getAddress().getAddress1() : "",
-                           user.getAddress() != null ? user.getAddress().getAddress2() : "",
-                           user.getBirthDate(),
-                           user.getGithub(),
-                           user.getCreateDt());
+                user.getPhone(),
+                user.getEmail(),
+                user.getImage(),
+                user.getBirthDate(),
+                user.getAddress() != null ? user.getAddress().getZipCode() : "",
+                user.getAddress() != null ? user.getAddress().getAddress1() : "",
+                user.getAddress() != null ? user.getAddress().getAddress2() : "",
+                user.getGithub(),
+                user.getCreateDt());
     }
 
     public User to(User user) {
@@ -60,6 +64,7 @@ public class UserDto implements ResponseData {
         user.setEmail(this.getEmail());
         user.setUsername(this.getUsername());
         user.setPhone(this.getPhone());
+        user.setImage(this.getImage());
         user.setBirthDate(this.getBirthDate());
 
         return user;
