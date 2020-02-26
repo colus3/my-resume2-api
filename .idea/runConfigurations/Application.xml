@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="my-resume2-api.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="me.programmeris.myresume.api.Application" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="kr.myresume.api.Application" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <envs>
       <env name="MY_RESUME2_DB_URL" value="localhost:3306/my_resume_v2" />
