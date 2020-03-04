@@ -11,8 +11,12 @@ public interface ResumeRepository extends JpaRepository<Resume, Long> {
     // User 정보까지 한번에 조회 하기 위해 EntityGraph (Fetch join) 사용
     @EntityGraph(attributePaths = "user")
     Resume findOneByIdAndUseYn(Long id, String useYn);
+
     @EntityGraph(attributePaths = "user")
     Resume findOneByDirectAccessIdAndUseYn(String directAccessId, String useYn);
+
+    @EntityGraph(attributePaths = {"user", "resumeContents"})
+    Resume findAllByUser_EmailAndDefaultYn(String email, String defaultYn);
 
     @EntityGraph(attributePaths = {"user", "resumeContents"})
     Page<Resume> findAllByUser_Email(String email, Pageable pageable);

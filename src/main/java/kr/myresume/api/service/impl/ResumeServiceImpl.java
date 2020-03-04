@@ -28,6 +28,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public ResumeDto getDefaultResumeByUserEmail(String email) {
+        return ResumeDto.of(resumeRepository.findAllByUser_EmailAndDefaultYn(email, "Y"));
+    }
+
+    @Override
     public Page<ResumeDto> getResumeByUserId(Long id, Pageable pageable) {
         return resumeRepository.findAllByUser_Id(id, pageable).map(ResumeDto::of);
     }

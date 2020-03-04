@@ -28,6 +28,6 @@ token:
   expiration_time: 30
 
 cookie:
-  domain: 'programmeris.me'
-  http_only: false
-  secure: false
+  domain: ${COOKIE_DOMAIN}
+  http_only: ${COOKIE_HTTP_ONLY}
+  secure: ${COOKIE_SECURE}

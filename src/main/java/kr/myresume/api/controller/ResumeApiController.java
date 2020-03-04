@@ -29,14 +29,6 @@ public class ResumeApiController {
         return Response.create(Code.SUCCESS, resume);
     }
 
-    @GetMapping("/id/{direct_access_id:.+}")
-    public Response<ResumeDto> getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
-                                                         @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
-
-        ResumeDto resume = resumeService.getResumeByDirectAccessId(directAccessId, useYn);
-        return Response.create(Code.SUCCESS, resume);
-    }
-
     @Session
     @GetMapping("/user-id/{id:[0-9]+}")
     public Response<ResumeDto> getResumesByUserIdWithPaging(@PathVariable("id") Long id,
@@ -53,5 +45,21 @@ public class ResumeApiController {
 
         Page<ResumeDto> resumes = resumeService.getResumeByUserEmail(email, pageable);
         return Response.create(Code.SUCCESS, resumes);
+    }
+
+    @GetMapping("/id/{direct_access_id:.+}")
+    public Response<ResumeDto> getResumeByDirectAccessId(@PathVariable("direct_access_id") String directAccessId,
+                                                         @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
+
+        ResumeDto resume = resumeService.getResumeByDirectAccessId(directAccessId, useYn);
+        return Response.create(Code.SUCCESS, resume);
+    }
+
+    @Session
+    @GetMapping("/email/{email:.+@.+}/default")
+    public Response<ResumeDto> getResumesByUserEmailWithPaging(@PathVariable("email") String email) {
+
+        ResumeDto resume = resumeService.getDefaultResumeByUserEmail(email);
+        return Response.create(Code.SUCCESS, resume);
     }
 }
