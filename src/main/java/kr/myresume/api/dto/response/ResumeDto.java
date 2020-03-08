@@ -18,6 +18,7 @@ public class ResumeDto implements ResponseData {
     private String name;
     private String shortIntro;
     private String useYn;
+    private String defaultYn;
     private String resumeUrl;
     private LocalDateTime createDt;
 
@@ -27,12 +28,13 @@ public class ResumeDto implements ResponseData {
     @JsonProperty(value = "resumeContents")
     private List<ResumeContentDto> resumeContentDtos;
 
-    public ResumeDto(String id, ResumeType type, String name, String shortIntro, String useYn, String resumeUrl, LocalDateTime createDt, UserDto userDto, List<ResumeContentDto> resumeContentDtos) {
+    public ResumeDto(String id, ResumeType type, String name, String shortIntro, String useYn, String defaultYn, String resumeUrl, LocalDateTime createDt, UserDto userDto, List<ResumeContentDto> resumeContentDtos) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.shortIntro = shortIntro;
         this.useYn = useYn;
+        this.defaultYn = defaultYn;
         this.resumeUrl = resumeUrl;
         this.createDt = createDt;
         this.userDto = userDto;
@@ -47,6 +49,7 @@ public class ResumeDto implements ResponseData {
                 resume.getName(),
                 resume.getShortIntro(),
                 resume.getUseYn(),
+                resume.getDefaultYn(),
                 resume.getResumeShortUrl(),
                 resume.getCreateDt(),
                 UserDto.of(resume.getUser()),
