@@ -41,7 +41,7 @@ public class ExceptionControllerAdvice {
                                                  HttpServletRequest request,
                                                  HttpServletResponse response) {
 
-        log.error("CookieException handler : {} {}", ce.getClass().getName(), ce.getMessage());
+        log.error("CookieException handler : {} {}", ce.getClass().getName(), ce.getMessage(), ce);
         return Response.create(Code.COOKIE_NOT_FOUND);
     }
 
