@@ -20,7 +20,6 @@ public class ResumeApiController {
 
     private final ResumeService resumeService;
 
-    @Session
     @GetMapping("{resume_id:[0-9]+}")
     public Response<ResumeDto> getResume(@PathVariable("resume_id") Long resumeId,
                                          @RequestParam(value = "use_yn", defaultValue = "Y") String useYn) {
@@ -29,7 +28,6 @@ public class ResumeApiController {
         return Response.create(Code.SUCCESS, resume);
     }
 
-    @Session
     @GetMapping("/user-id/{id:[0-9]+}")
     public Response<ResumeDto> getResumesByUserIdWithPaging(@PathVariable("id") Long id,
                                                    @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -38,7 +36,6 @@ public class ResumeApiController {
         return Response.create(Code.SUCCESS, resumes);
     }
 
-    @Session
     @GetMapping("/email/{email:.+@.+}")
     public Response<ResumeDto> getResumesByUserEmailWithPaging(@PathVariable("email") String email,
                                                               @PageableDefault(sort = "createDt", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -55,7 +52,6 @@ public class ResumeApiController {
         return Response.create(Code.SUCCESS, resume);
     }
 
-    @Session
     @GetMapping("/email/{email:.+@.+}/default")
     public Response<ResumeDto> getResumesByUserEmailWithPaging(@PathVariable("email") String email) {
 
